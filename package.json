@@ -76,9 +76,11 @@
     "@types/node": "^18.17.6",
     "@types/prompts": "^2.4.9",
     "@types/yargs": "^17.0.24",
+    "conventional-changelog-conventionalcommits": "^8.0.0",
     "globals": "^15.14.0",
     "husky": "^9.1.7",
     "rimraf": "^6.0.1",
+    "semantic-release": "^24.2.1",
     "typescript": "^5.4.5"
   }
 }
