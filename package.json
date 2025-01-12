@@ -9,7 +9,8 @@
     "build:watch": "tsc --watch",
     "prepack": "npm run build",
     "lint": "eslint src/**/*.{js,ts}",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix",
+    "prepare": "husky"
   },
   "author": "Lex Borisoff <lex@borisoff.dev>",
   "license": "ISC",
@@ -59,11 +60,14 @@
     "yargs": "^17.6.2"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
     "@lexjs/eslint-plugin": "^1.1.2",
     "@types/node": "^18.17.6",
     "@types/prompts": "^2.4.9",
     "@types/yargs": "^17.0.24",
     "globals": "^15.14.0",
+    "husky": "^9.1.7",
     "typescript": "^5.4.5"
   }
 }
