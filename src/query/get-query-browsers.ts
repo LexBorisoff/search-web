@@ -1,5 +1,4 @@
-import { Browser } from '@lexjs/web-search';
-
+import { Browser } from '../api/index.js';
 import { dataArgs } from '../command/args/data-args.js';
 import { defaultsData } from '../data/defaults-data.js';
 import { findBrowser } from '../helpers/find/find-browser.js';
