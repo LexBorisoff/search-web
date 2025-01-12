@@ -68,7 +68,17 @@ function updateConfig<Data extends ConfigDataDto>({
   const config = getConfigData();
 
   try {
-    const updated = {
+    const configDir = getConfigDirPath();
+    if (!fs.existsSync(configDir)) {
+      try {
+        fs.mkdirSync(configDir);
+      } catch {
+        logger.error('Could not create config directory');
+        return;
+      }
+    }
+
+    const updated: ConfigDataDto = {
       engines: {
         ...(clear?.engines ? {} : { ...config.engines, ...engines }),
       },
@@ -79,37 +89,27 @@ function updateConfig<Data extends ConfigDataDto>({
     };
 
     writeConfigFile(updated);
-  } catch {
-    logger.error('Could not write to config file');
+  } catch (error) {
+    logger.error('Could not write to config file:', error);
   }
 }
 
-const engineSym: symbol = Symbol('engine');
-const browserSym: symbol = Symbol('browser');
+const ENGINE_SYM = Symbol('engine');
+const BROWSER_SYM = Symbol('browser');
 
 const engine: CreateEngineFn = (baseUrl, config = {}): ConfigEngine => {
-  return Object.defineProperty({ ...config, baseUrl }, engineSym, {
+  return Object.defineProperty({ ...config, baseUrl }, ENGINE_SYM, {
     value: true,
   });
 };
 
 const browser: CreateBrowserFn = (config = {}): ConfigBrowser => {
-  return Object.defineProperty(config, browserSym, {
+  return Object.defineProperty(config, BROWSER_SYM, {
     value: true,
   });
 };
 
 export const defineConfig: DefineConfigFn = function defineConfig(define) {
-  const configDir = getConfigDirPath();
-  if (!fs.existsSync(configDir)) {
-    try {
-      fs.mkdirSync(configDir);
-    } catch {
-      logger.error('Could not create config directory');
-      return;
-    }
-  }
-
   const definedConfig = define({ engine, browser });
 
   const engines = Object.entries(definedConfig).reduce<
@@ -117,11 +117,10 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
   >((result, [key, engineOrBrowser]) => {
     const { value: isEngine } = Object.getOwnPropertyDescriptor(
       engineOrBrowser,
-      engineSym,
+      ENGINE_SYM,
     ) ?? { value: false };
 
     if (isEngine) {
-      // TODO: use discriminated array instead of type coercion
       result[key] = engineOrBrowser as ConfigEngine;
     }
 
@@ -133,7 +132,7 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
   >((result, [key, engineOrBrowser]) => {
     const { value: isBrowser } = Object.getOwnPropertyDescriptor(
       engineOrBrowser,
-      browserSym,
+      BROWSER_SYM,
     ) ?? { value: false };
 
     if (isBrowser) {

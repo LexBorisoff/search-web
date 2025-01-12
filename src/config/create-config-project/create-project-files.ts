@@ -5,25 +5,25 @@ import { execa } from 'execa';
 
 import { logger } from '../../helpers/utils/logger.js';
 
-import { fileContents } from './file-contents.js';
+import { fileContents } from './file-contents/index.js';
 
 interface File {
   fileName: string;
   contents: string;
 }
 
-type ConfigFile = 'eslint' | 'tsconfig' | 'gitignore' | 'eslintignore';
+type ConfigFile = 'eslint' | 'prettier' | 'tsconfig' | 'gitignore';
 type SourceFile = 'engines' | 'browsers';
 
 export const srcDir = 'src';
 export const srcFiles: Record<SourceFile, File> = {
   engines: {
     fileName: `${srcDir}/engines.ts`,
-    contents: fileContents.enginesConfig,
+    contents: fileContents.engines,
   },
   browsers: {
     fileName: `${srcDir}/browsers.ts`,
-    contents: fileContents.browsersConfig,
+    contents: fileContents.browsers,
   },
 } as const;
 
@@ -33,12 +33,12 @@ const configFiles: Record<ConfigFile, File> = {
     contents: fileContents.tsconfig,
   },
   eslint: {
-    fileName: '.eslintrc.cjs',
-    contents: fileContents.eslintrc,
+    fileName: 'eslint.config.js',
+    contents: fileContents.eslint,
   },
-  eslintignore: {
-    fileName: '.eslintignore',
-    contents: fileContents.eslintignore,
+  prettier: {
+    fileName: '.prettierrc',
+    contents: fileContents.prettier,
   },
   gitignore: {
     fileName: '.gitignore',
