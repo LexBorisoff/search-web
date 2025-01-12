@@ -2,8 +2,9 @@ import { getPackageJson } from '../../../helpers/project/get-package-json.js';
 
 const projectName = getPackageJson().name!;
 
-export const engines = `import { defineConfig } from '${projectName}/config';
+export const engines = `import { defineConfig, clearEngines } from '${projectName}/config';
 
+clearEngines();
 defineConfig(({ engine }) => ({
   google: engine('google.com', {
     search: 'search?q=',

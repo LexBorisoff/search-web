@@ -49,6 +49,10 @@ export const initializeProject = {
       await execa('npm', ['install', '--save-dev', ...devDependencies]);
     }
 
+    if (process.env.IS_DEV_SEARCH_WEB === 'true') {
+      await execa('npm', ['link', packageName]);
+    }
+
     const configFile = path.resolve(process.cwd(), 'package.json');
     const contents = readFile(configFile);
     const data = parseData<PackageJson>(contents) ?? {};
