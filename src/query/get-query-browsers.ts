@@ -1,9 +1,12 @@
-import { Browser } from "@lexjs/web-search";
-import type { QueryBrowser } from "../types/query.types.js";
-import { dataArgs } from "../command/args/data-args.js";
-import { defaultsData } from "../data/defaults-data.js";
-import { findBrowser } from "../helpers/find/find-browser.js";
-import { getProfilesConfig } from "./get-profiles-config.js";
+import { Browser } from '@lexjs/web-search';
+
+import { dataArgs } from '../command/args/data-args.js';
+import { defaultsData } from '../data/defaults-data.js';
+import { findBrowser } from '../helpers/find/find-browser.js';
+
+import { getProfilesConfig } from './get-profiles-config.js';
+
+import type { QueryBrowser } from '../types/query.types.js';
 
 const browserArgs = dataArgs.browser();
 

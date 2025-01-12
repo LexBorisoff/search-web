@@ -1,19 +1,19 @@
 export type PrimitiveTypeLiteral =
-  | "string"
-  | "number"
-  | "bigint"
-  | "boolean"
-  | "symbol";
+  | 'string'
+  | 'number'
+  | 'bigint'
+  | 'boolean'
+  | 'symbol';
 
 export type PrimitiveType<TypeLiteral extends PrimitiveTypeLiteral> =
-  TypeLiteral extends "string"
+  TypeLiteral extends 'string'
     ? string
-    : TypeLiteral extends "number"
+    : TypeLiteral extends 'number'
       ? number
-      : TypeLiteral extends "bigint"
+      : TypeLiteral extends 'bigint'
         ? bigint
-        : TypeLiteral extends "boolean"
+        : TypeLiteral extends 'boolean'
           ? boolean
-          : TypeLiteral extends "symbol"
+          : TypeLiteral extends 'symbol'
             ? symbol
             : never;

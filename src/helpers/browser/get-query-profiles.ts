@@ -1,7 +1,8 @@
-import type { Profile } from "../../types/config.types.js";
-import { defaultsData } from "../../data/defaults-data.js";
-import { dataArgs } from "../../command/args/data-args.js";
-import { findProfile } from "../find/find-profile.js";
+import { dataArgs } from '../../command/args/data-args.js';
+import { defaultsData } from '../../data/defaults-data.js';
+import { findProfile } from '../find/find-profile.js';
+
+import type { Profile } from '../../types/config.types.js';
 
 function withProfile(browserName: string): boolean {
   return (
@@ -17,13 +18,13 @@ function withProfile(browserName: string): boolean {
 export function getQueryProfiles(browserName: string): [string, Profile][] {
   const profiles: [string, Profile][] = [];
 
-  function handleProfile(profileNameOrAlias: string) {
+  function handleProfile(profileNameOrAlias: string): void {
     const found = findProfile(browserName, profileNameOrAlias);
 
     profiles.push(
       found != null
         ? found
-        : [profileNameOrAlias, { directory: profileNameOrAlias }]
+        : [profileNameOrAlias, { directory: profileNameOrAlias }],
     );
   }
 

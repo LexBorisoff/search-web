@@ -1,19 +1,21 @@
-import * as path from "node:path";
-import "dotenv/config";
-import { logger } from "../../helpers/utils/logger.js";
-import { loading } from "../../helpers/utils/loading.js";
-import { prompts } from "../../helpers/utils/prompts.js";
-import { printInstructions } from "./print-instructions.js";
-import { createProjectDir } from "./create-project-dir.js";
-import { createProjectFiles } from "./create-project-files.js";
-import { initializeProject } from "./initialize-project.js";
-import { PackageManager } from "./package-manager/package-manager.enum.js";
+import * as path from 'node:path';
 
-export async function createConfigProject() {
+import 'dotenv/config';
+import { loading } from '../../helpers/utils/loading.js';
+import { logger } from '../../helpers/utils/logger.js';
+import { prompts } from '../../helpers/utils/prompts.js';
+
+import { createProjectDir } from './create-project-dir.js';
+import { createProjectFiles } from './create-project-files.js';
+import { initializeProject } from './initialize-project.js';
+import { PackageManager } from './package-manager/package-manager.enum.js';
+import { printInstructions } from './print-instructions.js';
+
+export async function createConfigProject(): Promise<void> {
   const { projectName } = await prompts.text({
-    name: "projectName",
-    message: "Project name",
-    initial: "web-cli-config",
+    name: 'projectName',
+    message: 'Project name',
+    initial: 'web-cli-config',
   });
 
   if (projectName == null) {
@@ -21,8 +23,8 @@ export async function createConfigProject() {
   }
 
   const { pm } = await prompts.select({
-    name: "pm",
-    message: "How to install dependencies",
+    name: 'pm',
+    message: 'How to install dependencies',
     choices: [
       {
         title: PackageManager.NPM,
@@ -61,14 +63,14 @@ export async function createConfigProject() {
 
   try {
     await initializeProject.git();
-  } catch (error) {
-    logger.warning("Could not initialize a git repository\n");
+  } catch {
+    logger.warning('Could not initialize a git repository\n');
   }
 
   try {
     await loading(
       async (onCancel) => {
-        process.on("SIGINT", () => {
+        process.on('SIGINT', () => {
           onCancel();
           process.exit();
         });
@@ -78,7 +80,7 @@ export async function createConfigProject() {
       },
       {
         message: `⚡ Scaffolding ${logger.level.info(projectName)}`,
-      }
+      },
     );
 
     logger(`🚀 Successfully created ${logger.level.success(projectName)}\n`);

@@ -1,6 +1,8 @@
-import type { Profile } from "../../types/config.types.js";
-import { getProfilesData } from "../../data/get-profiles-data.js";
-import { findConfigItem } from "./find-config-item.js";
+import { getProfilesData } from '../../data/get-profiles-data.js';
+
+import { findConfigItem } from './find-config-item.js';
+
+import type { Profile } from '../../types/config.types.js';
 
 /**
  * Returns a tuple with the profile's config key and the Profile object
@@ -9,7 +11,7 @@ import { findConfigItem } from "./find-config-item.js";
  */
 export function findProfile(
   browserName: string,
-  profileNameOrAlias: string
+  profileNameOrAlias: string,
 ): [string, Profile] | undefined {
   const browserProfiles = getProfilesData(browserName);
   return findConfigItem(profileNameOrAlias, browserProfiles);

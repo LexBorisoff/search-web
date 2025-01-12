@@ -1,6 +1,7 @@
-import { configFlags } from "../../data/config-flags.js";
-import { queryOptions, yargsOptions } from "../options.js";
-import { queryArgs } from "./query-args.js";
+import { configFlags } from '../../data/config-flags.js';
+import { queryOptions, yargsOptions } from '../options.js';
+
+import { queryArgs } from './query-args.js';
 
 /**
  * A list of args that do not match CLI and yargs' options,

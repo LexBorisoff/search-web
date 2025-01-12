@@ -1,15 +1,17 @@
-import yargs from "yargs";
-import { hideBin } from "yargs/helpers";
-import { matchers } from "@lexjs/web-search/matchers";
-import { getPackageJson } from "../../helpers/project/get-package-json.js";
-import { configFlags } from "../../data/config-flags.js";
+import { matchers } from '@lexjs/web-search/matchers';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+
+import { configFlags } from '../../data/config-flags.js';
+import { getPackageJson } from '../../helpers/project/get-package-json.js';
 import {
   QueryOptions as Options,
   queryAlias as alias,
   queryOptions as options,
   queryOptionTypes as types,
-} from "../options.js";
-import type { ArrayArgs } from "../../types/arg.types.js";
+} from '../options.js';
+
+import type { ArrayArgs } from '../../types/arg.types.js';
 
 const version = getPackageJson().version!;
 
@@ -17,17 +19,17 @@ const args = yargs(hideBin(process.argv))
   .option(Options.Browser, {
     type: types[Options.Browser],
     alias: alias.browser,
-    description: "The browser app to open",
+    description: 'The browser app to open',
   })
   .option(Options.Profile, {
     type: types[Options.Profile],
     alias: alias.profile,
-    description: "The browser profile to open",
+    description: 'The browser profile to open',
   })
   .option(Options.Engine, {
     type: types[Options.Engine],
     alias: alias.engine,
-    description: "The search engine (or website) to query",
+    description: 'The search engine (or website) to query',
   })
   .option(Options.Search, {
     type: types[Options.Search],
@@ -47,29 +49,29 @@ const args = yargs(hideBin(process.argv))
   .option(Options.Port, {
     type: types[Options.Port],
     alias: alias.port,
-    description: "The port number to add to the URL",
+    description: 'The port number to add to the URL',
   })
   .option(Options.Incognito, {
     type: types[Options.Incognito],
     alias: alias.incognito,
-    description: "Open in incognito / private mode",
+    description: 'Open in incognito / private mode',
   })
   .option(Options.Split, {
     type: types[Options.Split],
-    description: "Create a separate web query for each value argument",
+    description: 'Create a separate web query for each value argument',
   })
   .option(Options.Http, {
     type: types[Options.Http],
-    description: "Use the HTTP (non-secure) protocol",
+    description: 'Use the HTTP (non-secure) protocol',
   })
   .option(Options.Test, {
     type: types[Options.Test],
     alias: alias.test,
-    description: "Display the output without opening browser tabs",
+    description: 'Display the output without opening browser tabs',
   })
   .option(Options.Update, {
     type: types[Options.Update],
-    description: "Update package to the most current version",
+    description: 'Update package to the most current version',
   })
   .help()
   .version(version)

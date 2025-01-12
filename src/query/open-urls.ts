@@ -1,8 +1,10 @@
-import open from "open";
-import { queryArgs } from "../command/args/query-args.js";
-import { getQueryProfiles } from "../helpers/browser/get-query-profiles.js";
-import { BrowserProfileQuery } from "../types/query.types.js";
-import { getQueryBrowsers } from "./get-query-browsers.js";
+import open from 'open';
+
+import { queryArgs } from '../command/args/query-args.js';
+import { getQueryProfiles } from '../helpers/browser/get-query-profiles.js';
+import { BrowserProfileQuery } from '../types/query.types.js';
+
+import { getQueryBrowsers } from './get-query-browsers.js';
 
 const { test, incognito } = queryArgs;
 
@@ -14,7 +16,7 @@ export function openUrls(urls: string[]): BrowserProfileQuery[] {
       Promise.all(
         urls.map((link) => {
           open(link);
-        })
+        }),
       );
     }
 
@@ -34,7 +36,7 @@ export function openUrls(urls: string[]): BrowserProfileQuery[] {
           profile: browserProfiles.map(([, profile]) => profile.directory),
           incognito,
         });
-      })
+      }),
     );
   }
 

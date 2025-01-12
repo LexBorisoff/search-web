@@ -1,4 +1,4 @@
-import { findBrowser } from "../find/find-browser.js";
+import { findBrowser } from '../find/find-browser.js';
 
 /**
  * Returns a browser key from the config if it is found

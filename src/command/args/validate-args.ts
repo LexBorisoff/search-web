@@ -1,16 +1,18 @@
-import chalk from "chalk";
-import { matchers } from "@lexjs/web-search/matchers";
-import { defaultsData } from "../../data/defaults-data.js";
+import { matchers } from '@lexjs/web-search/matchers';
+import chalk from 'chalk';
+
 import {
   configEngineFlags,
   browserProfileFlags,
-} from "../../data/config-flags.js";
-import { getBrowserName } from "../../helpers/browser/get-browser-name.js";
-import { logger } from "../../helpers/utils/logger.js";
-import { QueryOptions as Options } from "../options.js";
-import { invalidArgs } from "./invalid-args.js";
-import { dataArgs } from "./data-args.js";
-import { queryArgs, urlArgs } from "./query-args.js";
+} from '../../data/config-flags.js';
+import { defaultsData } from '../../data/defaults-data.js';
+import { getBrowserName } from '../../helpers/browser/get-browser-name.js';
+import { logger } from '../../helpers/utils/logger.js';
+import { QueryOptions as Options } from '../options.js';
+
+import { dataArgs } from './data-args.js';
+import { invalidArgs } from './invalid-args.js';
+import { queryArgs, urlArgs } from './query-args.js';
 
 const { italic } = chalk;
 const { resource, search, delimiter } = queryArgs;
@@ -24,27 +26,27 @@ const validate = {
 
 const errorMessages: string[] = [];
 
-function addMessage(message: string) {
+function addMessage(message: string): void {
   errorMessages.push(message);
 }
 
 function isEmptyArg(list: string[]): boolean {
-  return list.length === 1 && list[0] === "";
+  return list.length === 1 && list[0] === '';
 }
 
 function noValueError(option: Options): void {
   addMessage(
-    logger.level.error(`${italic(`--${option}`)} option must have a value`)
+    logger.level.error(`${italic(`--${option}`)} option must have a value`),
   );
 }
 
 function validateResource(
   value: string | string[],
   option: Options.Resource | Options.Search,
-  allowUrlArgs = true
+  allowUrlArgs = true,
 ): void {
-  const emptyArg = !Array.isArray(value) && value === "";
-  const emptyList = Array.isArray(value) && value.every((arg) => arg === "");
+  const emptyArg = !Array.isArray(value) && value === '';
+  const emptyList = Array.isArray(value) && value.every((arg) => arg === '');
 
   if (emptyArg || emptyList) {
     noValueError(option);
@@ -53,8 +55,8 @@ function validateResource(
   if (engineArgs.length === 0 && (!allowUrlArgs || !urlArgs)) {
     addMessage(
       logger.level.error(
-        `${italic(`--${option}`)} option must be used with --engine${allowUrlArgs ? " or URL" : ""}`
-      )
+        `${italic(`--${option}`)} option must be used with --engine${allowUrlArgs ? ' or URL' : ''}`,
+      ),
     );
   }
 }
@@ -68,10 +70,10 @@ function validateResource(
  * * String array, null or undefined - profile args are validated against
  * profile keys and aliases of all config browsers
  */
-function validateProfileArgs(browser?: string | string[] | null) {
+function validateProfileArgs(browser?: string | string[] | null): void {
   const profileArgs = dataArgs.profile(
     browser == null || Array.isArray(browser) ? null : browser,
-    false
+    false,
   );
 
   if (isEmptyArg(profileArgs)) {
@@ -90,19 +92,19 @@ function validateProfileArgs(browser?: string | string[] | null) {
           ...flags,
           [browserName]: profileFlags ?? [],
         };
-      }
+      },
     );
   }
 
   const invalidProfiles = profileArgs.filter(
-    (arg) => arg !== "" && !Object.values(flags).flat().includes(arg)
+    (arg) => arg !== '' && !Object.values(flags).flat().includes(arg),
   );
 
   if (invalidProfiles.length > 0) {
     addMessage(
       logger.level.error(
-        `Invalid profiles: ${logger.level.warning(invalidProfiles.join(" "))}`
-      )
+        `Invalid profiles: ${logger.level.warning(invalidProfiles.join(' '))}`,
+      ),
     );
   }
 }
@@ -116,8 +118,8 @@ export function validateArgs(): string[] {
   if (invalidArgs.length > 0) {
     addMessage(
       logger.level.error(
-        `Invalid options: ${logger.level.warning(invalidArgs.join(", "))}`
-      )
+        `Invalid options: ${logger.level.warning(invalidArgs.join(', '))}`,
+      ),
     );
   }
 
@@ -128,14 +130,14 @@ export function validateArgs(): string[] {
 
   const invalidEngines = engineArgs.filter(
     (arg) =>
-      arg !== "" && !configEngineFlags.includes(arg) && !matchers.url.test(arg)
+      arg !== '' && !configEngineFlags.includes(arg) && !matchers.url.test(arg),
   );
 
   if (invalidEngines.length > 0) {
     addMessage(
       logger.level.error(
-        `Invalid search engines: ${logger.level.warning(invalidEngines.join(" "))}`
-      )
+        `Invalid search engines: ${logger.level.warning(invalidEngines.join(' '))}`,
+      ),
     );
   }
 
@@ -157,12 +159,12 @@ export function validateArgs(): string[] {
     if (Array.isArray(delimiter)) {
       addMessage(
         logger.level.error(
-          `Multiple ${italic("--delimiter")} options are not allowed`
-        )
+          `Multiple ${italic('--delimiter')} options are not allowed`,
+        ),
       );
     }
 
-    if (delimiter === "") {
+    if (delimiter === '') {
       noValueError(Options.Delimiter);
     }
   }
@@ -183,7 +185,7 @@ export function validateArgs(): string[] {
 
   if (validate.profiles) {
     validateProfileArgs(
-      browserArgs.length > 0 ? browserArgs : defaultsData.browser?.[0]
+      browserArgs.length > 0 ? browserArgs : defaultsData.browser?.[0],
     );
   }
 
@@ -192,15 +194,15 @@ export function validateArgs(): string[] {
   if (portArgs.length > 0) {
     if (portArgs.some((port) => Number.isNaN(port))) {
       addMessage(
-        logger.level.error(`${italic("--port")} option must be a number`)
+        logger.level.error(`${italic('--port')} option must be a number`),
       );
     }
 
     if (engineArgs.length === 0 && !urlArgs)
       addMessage(
         logger.level.error(
-          `${italic("--port")} option must be used with --engine or URL`
-        )
+          `${italic('--port')} option must be used with --engine or URL`,
+        ),
       );
   }
 

@@ -1,4 +1,4 @@
-import { PackageManager } from "./package-manager.enum.js";
+import { PackageManager } from './package-manager.enum.js';
 
 export interface PmCommand {
   install: string;
@@ -7,15 +7,15 @@ export interface PmCommand {
 
 export const pmCommands: Record<PackageManager, PmCommand> = {
   [PackageManager.NPM]: {
-    install: "install",
-    saveDev: "--save-dev",
+    install: 'install',
+    saveDev: '--save-dev',
   },
   [PackageManager.PNPM]: {
-    install: "add",
-    saveDev: "--save-dev",
+    install: 'add',
+    saveDev: '--save-dev',
   },
   [PackageManager.YARN]: {
-    install: "add",
-    saveDev: "--dev",
+    install: 'add',
+    saveDev: '--dev',
   },
 };
