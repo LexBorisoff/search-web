@@ -1,6 +1,6 @@
-import { matchers } from '@lexjs/web-search/matchers';
 import chalk from 'chalk';
 
+import { matchers } from '../../api/index.js';
 import {
   configEngineFlags,
   browserProfileFlags,

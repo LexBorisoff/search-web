@@ -1,5 +1,4 @@
-import { Engine } from '@lexjs/web-search';
-
+import { Engine } from '../api/index.js';
 import { dataArgs } from '../command/args/data-args.js';
 import { queryArgs, urlArgs } from '../command/args/query-args.js';
 import { defaultsData } from '../data/defaults-data.js';
