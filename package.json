@@ -1,7 +1,7 @@
 {
   "name": "search-web",
   "version": "0.0.0-semantically-released",
-  "description": "CLI and library for making browser web searches from the shell",
+  "description": "CLI for making browser web searches from the shell",
   "type": "module",
   "scripts": {
     "prepack": "npm run build",
