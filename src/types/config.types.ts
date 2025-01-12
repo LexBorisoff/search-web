@@ -1,11 +1,11 @@
+import type { OmitKey } from './omit-key.type.js';
 import type {
   BrowserConfig,
   BrowserName,
   EngineConfig,
   ResourceConfig,
   SearchConfig,
-} from "@lexjs/web-search";
-import type { OmitKey } from "./omit-key.type.js";
+} from '@lexjs/web-search';
 
 export interface WithAlias {
   alias?: string | string[];
@@ -47,20 +47,20 @@ export type ProfilesData = {
 export interface ConfigBrowserOptions
   extends OmitKey<
       BrowserConfig<NonNullable<BrowserName>, undefined>,
-      "profiles"
+      'profiles'
     >,
     BaseConfigOptions {
   appPath?: string;
   profiles?: ConfigProfiles;
 }
 
-export interface ConfigBrowser extends ConfigBrowserOptions {}
+export type ConfigBrowser = ConfigBrowserOptions;
 
 /* ~~~ DEFINE CONFIG ~~~ */
 
 export type CreateEngineFn = (
   baseUrl: string,
-  config?: ConfigEngineOptions<SearchConfig, ResourceConfig>
+  config?: ConfigEngineOptions<SearchConfig, ResourceConfig>,
 ) => ConfigEngine;
 export type CreateBrowserFn = (config?: ConfigBrowserOptions) => ConfigBrowser;
 
@@ -73,7 +73,7 @@ export interface DefineConfigProps {
 }
 
 export type DefineConfigCallback = (
-  props: DefineConfigProps
+  props: DefineConfigProps,
 ) => Record<string, ConfigEngine | ConfigBrowser>;
 
 export type DefineConfigFn = (callback: DefineConfigCallback) => void;
@@ -98,7 +98,7 @@ export interface ConfigMetaJson {
   updatedAt?: string;
 }
 
-export interface ConfigDataJson extends Omit<ConfigDataDto, "meta"> {
+export interface ConfigDataJson extends Omit<ConfigDataDto, 'meta'> {
   meta?: ConfigMetaJson;
 }
 

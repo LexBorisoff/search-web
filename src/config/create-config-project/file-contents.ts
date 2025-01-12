@@ -1,4 +1,4 @@
-import { getPackageJson } from "../../helpers/project/get-package-json.js";
+import { getPackageJson } from '../../helpers/project/get-package-json.js';
 
 const projectName = getPackageJson().name!;
 

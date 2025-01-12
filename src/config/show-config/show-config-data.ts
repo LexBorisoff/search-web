@@ -1,9 +1,11 @@
-import chalk from "chalk";
-import type { IsDefault, WithAlias } from "../../types/config.types.js";
-import { getBrowsersData } from "../../data/get-browsers-data.js";
-import { logger } from "../../helpers/utils/logger.js";
-import { getEnginesData } from "../../data/get-engines-data.js";
-import { ConfigAction } from "../get-config-action.js";
+import chalk from 'chalk';
+
+import { getBrowsersData } from '../../data/get-browsers-data.js';
+import { getEnginesData } from '../../data/get-engines-data.js';
+import { logger } from '../../helpers/utils/logger.js';
+import { ConfigAction } from '../get-config-action.js';
+
+import type { IsDefault, WithAlias } from '../../types/config.types.js';
 
 interface PrintDataOptions {
   isDefault?: boolean;
@@ -12,14 +14,14 @@ interface PrintDataOptions {
 function printDataInfo<D extends WithAlias>(
   key: string,
   engine: D,
-  { isDefault, extra }: PrintDataOptions = {}
-) {
+  { isDefault, extra }: PrintDataOptions = {},
+): void {
   let info = logger.level.info(key);
 
   if (engine.alias) {
-    info += " | ";
+    info += ' | ';
     const aliases = Array.isArray(engine.alias) ? engine.alias : [engine.alias];
-    info += aliases.map((alias) => logger.level.info(alias)).join(" | ");
+    info += aliases.map((alias) => logger.level.info(alias)).join(' | ');
   }
 
   if (extra != null) {
@@ -27,7 +29,7 @@ function printDataInfo<D extends WithAlias>(
   }
 
   if (isDefault === true) {
-    info += chalk.gray(" (default)");
+    info += chalk.gray(' (default)');
   }
 
   logger(info);
@@ -38,8 +40,8 @@ interface HandleDataOptions<T extends WithAlias & IsDefault> {
 }
 function handleData<T extends WithAlias & IsDefault>(
   data: Record<string, T>,
-  { extra }: HandleDataOptions<T> = {}
-) {
+  { extra }: HandleDataOptions<T> = {},
+): void {
   const entries = Object.entries(data);
   const defaultItem =
     entries.find(([, { isDefault }]) => isDefault) ?? entries.at(0);
@@ -68,10 +70,10 @@ export const showConfigData = {
     handleData(browsers, {
       extra: ({ profiles }) =>
         profiles == null
-          ? ""
+          ? ''
           : ` [${Object.keys(profiles)
               .map((profile) => logger.level.warning(profile))
-              .join(", ")}]`,
+              .join(', ')}]`,
     });
   },
 

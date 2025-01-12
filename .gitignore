@@ -1,4 +1,6 @@
+*.ignore.*
 .npmrc
+__test__*
 
 # Build
 _build

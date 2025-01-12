@@ -1,8 +1,9 @@
-import { ProfilesConfig } from "@lexjs/web-search";
-import { findBrowser } from "../helpers/find/find-browser.js";
+import { ProfilesConfig } from '@lexjs/web-search';
+
+import { findBrowser } from '../helpers/find/find-browser.js';
 
 export function getProfilesConfig(
-  browserNameOrAlias: string
+  browserNameOrAlias: string,
 ): ProfilesConfig | undefined {
   const [, browser] = findBrowser(browserNameOrAlias) ?? [];
 
@@ -11,8 +12,8 @@ export function getProfilesConfig(
     : Object.entries(browser.profiles ?? {}).reduce<ProfilesConfig>(
         (result, [key, profile]) => ({
           ...result,
-          [key]: typeof profile === "string" ? profile : profile.directory,
+          [key]: typeof profile === 'string' ? profile : profile.directory,
         }),
-        {}
+        {},
       );
 }

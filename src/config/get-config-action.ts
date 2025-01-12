@@ -1,15 +1,16 @@
-import * as fs from "node:fs";
-import { prompts } from "../helpers/utils/prompts.js";
-import { getConfigFilePath } from "../helpers/config/get-config-path.js";
-import { getConfigData } from "../data/get-config-data.js";
+import * as fs from 'node:fs';
+
+import { getConfigData } from '../data/get-config-data.js';
+import { getConfigFilePath } from '../helpers/config/get-config-path.js';
+import { prompts } from '../helpers/utils/prompts.js';
 
 export enum ConfigAction {
-  Browsers,
-  Engines,
-  Directory,
-  Updated,
-  Created,
-  NewConfig,
+  Browsers = 'browsers',
+  Engines = 'engines',
+  Directory = 'directory',
+  Updated = 'updated',
+  Created = 'created',
+  NewConfig = 'newConfig',
 }
 
 export async function getConfigAction(): Promise<ConfigAction | undefined> {
@@ -19,41 +20,41 @@ export async function getConfigAction(): Promise<ConfigAction | undefined> {
 
   const actions = [
     {
-      title: "Engines",
+      title: 'Engines',
       value: ConfigAction.Engines,
       description: `show${
-        Object.keys(configData.engines ?? {}).length > 0 ? " config" : ""
+        Object.keys(configData.engines ?? {}).length > 0 ? ' config' : ''
       } engines`,
       show: true,
     },
     {
-      title: "Browsers",
+      title: 'Browsers',
       value: ConfigAction.Browsers,
-      description: "show config browsers",
+      description: 'show config browsers',
       show: configExists,
     },
     {
-      title: "Directory",
+      title: 'Directory',
       value: ConfigAction.Directory,
       description: "show config's project directory",
       show: configExists,
     },
     {
-      title: "Updated",
+      title: 'Updated',
       value: ConfigAction.Updated,
-      description: "show when config was last updated",
+      description: 'show when config was last updated',
       show: configExists,
     },
     {
-      title: "Created",
+      title: 'Created',
       value: ConfigAction.Created,
-      description: "show when config was created",
+      description: 'show when config was created',
       show: configExists,
     },
     {
-      title: "New Config",
+      title: 'New Config',
       value: ConfigAction.NewConfig,
-      description: "create a new config project",
+      description: 'create a new config project',
       show: true,
     },
   ];
@@ -67,8 +68,8 @@ export async function getConfigAction(): Promise<ConfigAction | undefined> {
     }));
 
   const { answer } = await prompts.select({
-    name: "answer",
-    message: "Choose an option",
+    name: 'answer',
+    message: 'Choose an option',
     choices,
   });
 

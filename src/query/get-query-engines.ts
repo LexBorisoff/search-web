@@ -1,10 +1,12 @@
-import { Engine } from "@lexjs/web-search";
-import type { QueryEngine } from "../types/query.types.js";
-import { dataArgs } from "../command/args/data-args.js";
-import { queryArgs, urlArgs } from "../command/args/query-args.js";
-import { defaultsData } from "../data/defaults-data.js";
-import { findEngine } from "../helpers/find/find-engine.js";
-import { defaultDelimiter } from "../helpers/config/defaults.js";
+import { Engine } from '@lexjs/web-search';
+
+import { dataArgs } from '../command/args/data-args.js';
+import { queryArgs, urlArgs } from '../command/args/query-args.js';
+import { defaultsData } from '../data/defaults-data.js';
+import { defaultDelimiter } from '../helpers/config/defaults.js';
+import { findEngine } from '../helpers/find/find-engine.js';
+
+import type { QueryEngine } from '../types/query.types.js';
 
 const [defaultEngineName, defaultEngine] = defaultsData.engine;
 const engineArgs = dataArgs.engine();

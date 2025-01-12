@@ -59,16 +59,11 @@
     "yargs": "^17.6.2"
   },
   "devDependencies": {
+    "@lexjs/eslint-plugin": "^1.1.2",
     "@types/node": "^18.17.6",
     "@types/prompts": "^2.4.9",
     "@types/yargs": "^17.0.24",
-    "@typescript-eslint/eslint-plugin": "^7.7.1",
-    "@typescript-eslint/parser": "^7.7.1",
-    "eslint": "^8.57.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-prettier": "^3.4.1",
+    "globals": "^15.14.0",
     "typescript": "^5.4.5"
   }
 }

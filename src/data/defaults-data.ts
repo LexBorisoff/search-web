@@ -1,22 +1,24 @@
+import {
+  defaultEngine,
+  defaultDelimiter as delimiter,
+} from '../helpers/config/defaults.js';
+import { initialEngines } from '../helpers/config/initial-engines.js';
+
+import { getBrowsersData } from './get-browsers-data.js';
+import { getEnginesData } from './get-engines-data.js';
+import { getProfilesData } from './get-profiles-data.js';
+
 import type {
   ConfigEngine,
   DefaultsData,
   IsDefault,
-} from "../types/config.types.js";
-import {
-  defaultEngine,
-  defaultDelimiter as delimiter,
-} from "../helpers/config/defaults.js";
-import { initialEngines } from "../helpers/config/initial-engines.js";
-import { getEnginesData } from "./get-engines-data.js";
-import { getProfilesData } from "./get-profiles-data.js";
-import { getBrowsersData } from "./get-browsers-data.js";
+} from '../types/config.types.js';
 
 function getDefault<Data extends IsDefault>(
-  data: Data
+  data: Data,
 ): [string, Data[keyof Data]] | null {
   const withDefault = Object.entries(data).find(
-    ([, item]: [key: string, item: Data]) => !!item.isDefault
+    ([, item]: [key: string, item: Data]) => !!item.isDefault,
   );
 
   if (withDefault != null) {
@@ -31,7 +33,7 @@ function getDefault<Data extends IsDefault>(
   return null;
 }
 
-function getDefaultEngine(): DefaultsData["engine"] {
+function getDefaultEngine(): DefaultsData['engine'] {
   const engines = getEnginesData();
   const fallback: [string, ConfigEngine] = [
     defaultEngine,
@@ -40,12 +42,12 @@ function getDefaultEngine(): DefaultsData["engine"] {
   return getDefault(engines) ?? fallback;
 }
 
-function getDefaultBrowser(): DefaultsData["browser"] | null {
+function getDefaultBrowser(): DefaultsData['browser'] | null {
   const browsers = getBrowsersData();
   return getDefault(browsers);
 }
 
-const getDefaultProfile: DefaultsData["profile"] = (browserName) => {
+const getDefaultProfile: DefaultsData['profile'] = (browserName) => {
   const profiles = getProfilesData(browserName);
   return getDefault(profiles);
 };

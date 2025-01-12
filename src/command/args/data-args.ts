@@ -1,10 +1,12 @@
-import { queryOptions } from "../options.js";
-import type { WithAlias } from "../../types/config.types.js";
-import { getBrowsersData } from "../../data/get-browsers-data.js";
-import { getEnginesData } from "../../data/get-engines-data.js";
-import { getProfilesData } from "../../data/get-profiles-data.js";
-import { configProfileFlags } from "../../data/config-flags.js";
-import { queryArgs } from "./query-args.js";
+import { configProfileFlags } from '../../data/config-flags.js';
+import { getBrowsersData } from '../../data/get-browsers-data.js';
+import { getEnginesData } from '../../data/get-engines-data.js';
+import { getProfilesData } from '../../data/get-profiles-data.js';
+import { queryOptions } from '../options.js';
+
+import { queryArgs } from './query-args.js';
+
+import type { WithAlias } from '../../types/config.types.js';
 
 const browsersData = getBrowsersData();
 const enginesData = getEnginesData();
@@ -19,7 +21,7 @@ interface Data<T> {
  */
 function combineArgLists(
   optionArg: string | string[] | undefined,
-  customArgs: string[] = []
+  customArgs: string[] = [],
 ): string[] {
   const argList = [...customArgs];
   if (optionArg != null) {
@@ -35,11 +37,11 @@ function combineArgLists(
 function getUniqueList(
   optionArg: string | string[] | undefined,
   customArgs: string[] = [],
-  removeEmptyArg: boolean = true
+  removeEmptyArg: boolean = true,
 ): string[] {
   const list = combineArgLists(optionArg, customArgs);
   const uniqueList = [...new Set(list)];
-  return removeEmptyArg ? uniqueList.filter((arg) => arg !== "") : uniqueList;
+  return removeEmptyArg ? uniqueList.filter((arg) => arg !== '') : uniqueList;
 }
 
 /**
@@ -48,7 +50,7 @@ function getUniqueList(
  */
 function getCustomArgs<T extends WithAlias>(data: Data<T>): string[] {
   const customFlags = Object.keys(queryArgs).filter(
-    (key) => !queryOptions.includes(key)
+    (key) => !queryOptions.includes(key),
   );
   return Object.entries(data)
     .map(([key, { alias }]) => {
@@ -85,7 +87,7 @@ export const dataArgs = {
    */
   profile: function getProfileArgs(
     browserName?: string | null,
-    removeEmptyArg = true
+    removeEmptyArg = true,
   ): string[] {
     const { profile } = queryArgs;
 
@@ -104,14 +106,14 @@ export const dataArgs = {
 
         // filter out short aliases
         const profileArgs = customArgs.filter((profileArg) =>
-          configProfileFlags.includes(profileArg)
+          configProfileFlags.includes(profileArg),
         );
 
         list.push(...profileArgs);
       });
 
       return [
-        ...new Set(removeEmptyArg ? list.filter((arg) => arg !== "") : list),
+        ...new Set(removeEmptyArg ? list.filter((arg) => arg !== '') : list),
       ];
     }
 
@@ -120,7 +122,7 @@ export const dataArgs = {
 
     // filter out short aliases
     const profileArgs = customArgs.filter((profileArg) =>
-      configProfileFlags.includes(profileArg)
+      configProfileFlags.includes(profileArg),
     );
 
     return getUniqueList(profile, profileArgs, removeEmptyArg);

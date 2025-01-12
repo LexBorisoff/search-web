@@ -1,11 +1,11 @@
-import type { WithAlias } from "../../types/config.types.js";
+import type { WithAlias } from '../../types/config.types.js';
 
 interface List<Item> {
   [key: string]: Item;
 }
 
 function withAlias<Item>(item: Item): item is Item & Required<WithAlias> {
-  return item instanceof Object && "alias" in item;
+  return item instanceof Object && 'alias' in item;
 }
 
 /**
@@ -14,7 +14,7 @@ function withAlias<Item>(item: Item): item is Item & Required<WithAlias> {
  */
 export function findConfigItem<Item>(
   nameOrAlias: string,
-  list: List<Item>
+  list: List<Item>,
 ): [string, Item] | undefined {
   return Object.entries(list).find(([key, item]) => {
     // name is list's key
@@ -31,7 +31,7 @@ export function findConfigItem<Item>(
     const { alias } = item;
     return (
       (Array.isArray(alias) && alias.includes(nameOrAlias)) ||
-      (typeof alias === "string" && alias === nameOrAlias)
+      (typeof alias === 'string' && alias === nameOrAlias)
     );
   });
 }

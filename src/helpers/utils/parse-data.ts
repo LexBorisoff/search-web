@@ -1,5 +1,5 @@
 export function parseData<Result = any>(data?: string | null): Result | null {
-  if (data == null || data === "") {
+  if (data == null || data === '') {
     return null;
   }
 

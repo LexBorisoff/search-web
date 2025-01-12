@@ -3,9 +3,9 @@ interface NestedObject<V = any> {
 }
 
 const isPrimitive = (value: unknown): value is string | number | boolean =>
-  typeof value === "boolean" ||
-  typeof value === "string" ||
-  typeof value === "number";
+  typeof value === 'boolean' ||
+  typeof value === 'string' ||
+  typeof value === 'number';
 
 /**
  * @param objectFallbackValue fallback value that is used when a matched property's value is an object
@@ -29,7 +29,7 @@ export function findNested<
       return objectFallbackValue;
     }
 
-    if (typeof value === "object") {
+    if (typeof value === 'object') {
       return findNested(value, lookupKey, objectFallbackValue);
     }
 

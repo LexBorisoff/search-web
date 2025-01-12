@@ -1,9 +1,9 @@
-import { findEngine } from "./find-engine.js";
-import { findNested } from "./find-nested.js";
+import { findEngine } from './find-engine.js';
+import { findNested } from './find-nested.js';
 
 export function findResource(
   engineArg: string,
-  resourceName: string
+  resourceName: string,
 ): string | null {
   const [, found] = findEngine(engineArg) ?? [];
 
@@ -11,5 +11,5 @@ export function findResource(
     return null;
   }
 
-  return findNested<string>(found.resources, resourceName, "");
+  return findNested<string>(found.resources, resourceName, '');
 }

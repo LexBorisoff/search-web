@@ -1,11 +1,11 @@
-import type { Answers, Choice, PromptObject } from "prompts";
-import type { OmitKey } from "./omit-key.type.js";
+import type { OmitKey } from './omit-key.type.js';
+import type { Answers, Choice, PromptObject } from 'prompts';
 
 export type BaseConfig<Name extends string = string> = OmitKey<
   PromptObject<Name>,
-  "type"
+  'type'
 > &
-  Required<Pick<PromptObject<Name>, "message">>;
+  Required<Pick<PromptObject<Name>, 'message'>>;
 
 /* ~~~ SELECT ~~~  */
 export interface SelectConfig<C extends Choice, Name extends string = string>
@@ -18,7 +18,7 @@ export type SelectReturn<
   Name extends string = string,
 > = Promise<
   OmitKey<Answers<Name>, Name> & {
-    [K in Name]: C["value"] | undefined;
+    [K in Name]: C['value'] | undefined;
   }
 >;
 
@@ -35,7 +35,7 @@ export type MultiSelectReturn<
   Name extends string = string,
 > = Promise<
   OmitKey<Answers<Name>, Name> & {
-    [K in Name]: C["value"][] | undefined;
+    [K in Name]: C['value'][] | undefined;
   }
 >;
 

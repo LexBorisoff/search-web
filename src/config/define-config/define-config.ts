@@ -1,7 +1,9 @@
-import * as fs from "node:fs";
-import { getConfigData } from "../../data/get-config-data.js";
-import { getConfigDirPath } from "../../helpers/config/get-config-path.js";
-import { logger } from "../../helpers/utils/logger.js";
+import * as fs from 'node:fs';
+
+import { getConfigData } from '../../data/get-config-data.js';
+import { getConfigDirPath } from '../../helpers/config/get-config-path.js';
+import { isValidDateString } from '../../helpers/utils/is-valid-date-string.js';
+import { logger } from '../../helpers/utils/logger.js';
 import {
   ConfigDataDto,
   ConfigMetaDto,
@@ -14,10 +16,9 @@ import {
   ClearEnginesFn,
   ClearBrowsersFn,
   DefineConfigFn,
-} from "../../types/config.types.js";
-import { writeConfigFile } from "../write-config-file.js";
-import { isValidDateString } from "../../helpers/utils/is-valid-date-string.js";
-import { OmitKey } from "../../types/omit-key.type.js";
+} from '../../types/config.types.js';
+import { OmitKey } from '../../types/omit-key.type.js';
+import { writeConfigFile } from '../write-config-file.js';
 
 function getConfigMetaDto(meta: ConfigMetaJson = {}): ConfigMetaDto {
   const { projectDir, createdAt, updatedAt } = meta;
@@ -55,7 +56,7 @@ interface ClearConfigProps {
   };
 }
 type UpdateConfigProps<Data extends ConfigDataDto | ConfigDataJson> = Partial<
-  OmitKey<Data, "meta">
+  OmitKey<Data, 'meta'>
 > &
   ClearConfigProps;
 
@@ -63,7 +64,7 @@ function updateConfig<Data extends ConfigDataDto>({
   engines,
   browsers,
   clear,
-}: UpdateConfigProps<Data>) {
+}: UpdateConfigProps<Data>): void {
   const config = getConfigData();
 
   try {
@@ -79,20 +80,20 @@ function updateConfig<Data extends ConfigDataDto>({
 
     writeConfigFile(updated);
   } catch {
-    logger.error("Could not write to config file");
+    logger.error('Could not write to config file');
   }
 }
 
-const engineSym: symbol = Symbol("engine");
-const browserSym: symbol = Symbol("browser");
+const engineSym: symbol = Symbol('engine');
+const browserSym: symbol = Symbol('browser');
 
-const engine: CreateEngineFn = (baseUrl, config = {}) => {
+const engine: CreateEngineFn = (baseUrl, config = {}): ConfigEngine => {
   return Object.defineProperty({ ...config, baseUrl }, engineSym, {
     value: true,
   });
 };
 
-const browser: CreateBrowserFn = (config = {}) => {
+const browser: CreateBrowserFn = (config = {}): ConfigBrowser => {
   return Object.defineProperty(config, browserSym, {
     value: true,
   });
@@ -104,7 +105,7 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
     try {
       fs.mkdirSync(configDir);
     } catch {
-      logger.error("Could not create config directory");
+      logger.error('Could not create config directory');
       return;
     }
   }
@@ -116,10 +117,11 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
   >((result, [key, engineOrBrowser]) => {
     const { value: isEngine } = Object.getOwnPropertyDescriptor(
       engineOrBrowser,
-      engineSym
+      engineSym,
     ) ?? { value: false };
 
     if (isEngine) {
+      // TODO: use discriminated array instead of type coercion
       result[key] = engineOrBrowser as ConfigEngine;
     }
 
@@ -131,7 +133,7 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
   >((result, [key, engineOrBrowser]) => {
     const { value: isBrowser } = Object.getOwnPropertyDescriptor(
       engineOrBrowser,
-      browserSym
+      browserSym,
     ) ?? { value: false };
 
     if (isBrowser) {
