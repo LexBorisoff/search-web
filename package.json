@@ -1,26 +1,32 @@
 {
-  "name": "@lexjs/web-cli",
-  "version": "1.3.3",
-  "description": "CLI for making browser search queries",
+  "name": "search-web",
+  "version": "0.0.0-semantically-released",
+  "description": "CLI and library for making browser web searches from the shell",
   "type": "module",
   "scripts": {
-    "prebuild": "npm run lint:fix && rm -fr ./bin",
-    "build": "tsc",
-    "build:watch": "tsc --watch",
     "prepack": "npm run build",
+    "build": "npm run compile",
+    "prebuild": "npm run ci && rimraf ./bin",
+    "ci": "npm run check-style && npm run check-build",
+    "check-style": "npm run format:check && npm run lint",
+    "check-build": "npm run compile -- --noEmit",
+    "format": "prettier --write *.{js,cjs,mjs,ts,cts,mts} src/**/*.ts",
+    "format:check": "prettier --check *.{js,cjs,mjs,ts,cts,mts} src/**/*.ts",
     "lint": "eslint src/**/*.{js,ts}",
     "lint:fix": "npm run lint -- --fix",
+    "style": "npm run format && npm run lint:fix",
+    "compile": "tsc -p tsconfig.json",
     "prepare": "husky"
   },
   "author": "Lex Borisoff <lex@borisoff.dev>",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LexBorisoff/web-cli.git"
+    "url": "git+https://github.com/LexBorisoff/search-web.git"
   },
-  "homepage": "https://github.com/LexBorisoff/web-cli/tree/main#readme",
+  "homepage": "https://github.com/LexBorisoff/search-web/tree/main#readme",
   "bugs": {
-    "url": "https://github.com/LexBorisoff/web-cli/issues"
+    "url": "https://github.com/LexBorisoff/search-web/issues"
   },
   "exports": {
     "./config": {
@@ -37,11 +43,15 @@
     "search",
     "websearch",
     "web-search",
+    "search-web",
     "search-engine",
     "browser-query",
     "web-query",
     "browser",
-    "google"
+    "google",
+    "firefox",
+    "edge",
+    "brave"
   ],
   "files": [
     "bin"
@@ -68,6 +78,7 @@
     "@types/yargs": "^17.0.24",
     "globals": "^15.14.0",
     "husky": "^9.1.7",
+    "rimraf": "^6.0.1",
     "typescript": "^5.4.5"
   }
 }
