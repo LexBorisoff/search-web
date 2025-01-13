@@ -1,4 +1,4 @@
-import type { PrimitiveTypeLiteral } from '../types/primitive.type.js';
+import type { PrimitiveTypeLiteral } from '@app-types/primitive.type.js';
 
 type Alias<T extends string> = Partial<Record<T, string | string[]>>;
 

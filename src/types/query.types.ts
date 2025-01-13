@@ -1,4 +1,4 @@
-import type { Browser, Engine } from '../api/index.js';
+import type { Browser, Engine } from '@api/index.js';
 
 export interface BrowserProfileQuery {
   browser: string;

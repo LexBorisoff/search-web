@@ -5,7 +5,7 @@ import type {
   EngineConfig,
   ResourceConfig,
   SearchConfig,
-} from '../api/index.js';
+} from '@api/index.js';
 
 export interface WithAlias {
   alias?: string | string[];

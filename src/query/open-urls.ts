@@ -1,10 +1,11 @@
 import open from 'open';
 
-import { queryArgs } from '../command/args/query-args.js';
-import { getQueryProfiles } from '../helpers/browser/get-query-profiles.js';
-import { BrowserProfileQuery } from '../types/query.types.js';
+import { queryArgs } from '@command/args/query-args.js';
+import { getQueryProfiles } from '@helpers/browser/get-query-profiles.js';
 
 import { getQueryBrowsers } from './get-query-browsers.js';
+
+import type { BrowserProfileQuery } from '@app-types/query.types.js';
 
 const { test, incognito } = queryArgs;
 

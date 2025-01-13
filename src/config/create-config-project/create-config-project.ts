@@ -1,9 +1,9 @@
 import path from 'node:path';
 
 import 'dotenv/config';
-import { loading } from '../../helpers/utils/loading.js';
-import { logger } from '../../helpers/utils/logger.js';
-import { prompts } from '../../helpers/utils/prompts.js';
+import { loading } from '@helpers/utils/loading.js';
+import { logger } from '@helpers/utils/logger.js';
+import { prompts } from '@helpers/utils/prompts.js';
 
 import { createProjectDir } from './create-project-dir.js';
 import { createProjectFiles } from './create-project-files.js';
@@ -14,7 +14,7 @@ export async function createConfigProject(): Promise<void> {
   const { projectName } = await prompts.text({
     name: 'projectName',
     message: 'Project name',
-    initial: 'web-cli-config',
+    initial: 'search-web-config',
   });
 
   if (projectName == null) {

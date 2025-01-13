@@ -1,8 +1,9 @@
-import { dataArgs } from '../../command/args/data-args.js';
-import { defaultsData } from '../../data/defaults-data.js';
+import { dataArgs } from '@command/args/data-args.js';
+import { defaultsData } from '@data/defaults-data.js';
+
 import { findProfile } from '../find/find-profile.js';
 
-import type { Profile } from '../../types/config.types.js';
+import type { Profile } from '@app-types/config.types.js';
 
 function withProfile(browserName: string): boolean {
   return (

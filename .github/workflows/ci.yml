@@ -36,7 +36,7 @@ jobs:
   results:
     name: CI Results
     runs-on: ubuntu-latest
-    if: always()
+    if: ${{ always() && github.event_name == 'pull_request' }}
 
     needs: ci
     steps:

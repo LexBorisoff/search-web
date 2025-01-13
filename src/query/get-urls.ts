@@ -1,13 +1,13 @@
-import { dataArgs } from '../command/args/data-args.js';
-import { queryArgs, urlArgs } from '../command/args/query-args.js';
-import { findNested } from '../helpers/find/find-nested.js';
+import { dataArgs } from '@command/args/data-args.js';
+import { queryArgs, urlArgs } from '@command/args/query-args.js';
+import { findNested } from '@helpers/find/find-nested.js';
 
 import type {
   Engine,
   ResourceConfig,
   ResourceObject,
   SearchConfig,
-} from '../api/index.js';
+} from '@api/index.js';
 
 const { _: args, resource, http } = queryArgs;
 const engineArgs = dataArgs.engine();

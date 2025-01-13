@@ -1,11 +1,11 @@
-import { Browser } from '../api/index.js';
-import { dataArgs } from '../command/args/data-args.js';
-import { defaultsData } from '../data/defaults-data.js';
-import { findBrowser } from '../helpers/find/find-browser.js';
+import { Browser } from '@api/index.js';
+import { dataArgs } from '@command/args/data-args.js';
+import { defaultsData } from '@data/defaults-data.js';
+import { findBrowser } from '@helpers/find/find-browser.js';
 
 import { getProfilesConfig } from './get-profiles-config.js';
 
-import type { QueryBrowser } from '../types/query.types.js';
+import type { QueryBrowser } from '@app-types/query.types.js';
 
 const browserArgs = dataArgs.browser();
 

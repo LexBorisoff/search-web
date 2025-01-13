@@ -1,8 +1,8 @@
 import * as fs from 'node:fs';
 
-import { getConfigData } from '../data/get-config-data.js';
-import { getConfigFilePath } from '../helpers/config/get-config-path.js';
-import { prompts } from '../helpers/utils/prompts.js';
+import { getConfigData } from '@data/get-config-data.js';
+import { getConfigFilePath } from '@helpers/config/get-config-path.js';
+import { prompts } from '@helpers/utils/prompts.js';
 
 export enum ConfigAction {
   Browsers = 'browsers',

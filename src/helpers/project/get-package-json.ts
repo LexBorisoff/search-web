@@ -8,7 +8,7 @@ import { parseData } from '../utils/parse-data.js';
 
 export function getPackageJson(): PackageJson {
   const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-  const root = path.join(__dirname, '../../../');
+  const root = path.join(__dirname, '../../../../');
 
   try {
     const json = fs.readFileSync(path.resolve(`${root}/package.json`), {

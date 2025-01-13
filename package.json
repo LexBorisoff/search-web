@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "prepack": "npm run build",
-    "build": "npm run compile",
+    "build": "npm run compile && npm run import-alias",
     "prebuild": "npm run ci && rimraf ./bin",
     "ci": "npm run check-style && npm run check-build",
     "check-style": "npm run format:check && npm run lint",
@@ -16,6 +16,7 @@
     "lint:fix": "npm run lint -- --fix",
     "style": "npm run format && npm run lint:fix",
     "compile": "tsc -p tsconfig.json",
+    "import-alias": "tsc-alias -p tsconfig.json",
     "prepare": "husky"
   },
   "author": "Lex Borisoff <lex@borisoff.dev>",
@@ -30,13 +31,13 @@
   },
   "exports": {
     "./config": {
-      "types": "./bin/types/config/index.d.ts",
-      "import": "./bin/config/index.js",
-      "default": "./bin/config/index.js"
+      "types": "./dist/types/config/index.d.ts",
+      "import": "./dist/bin/config/index.js",
+      "default": "./dist/bin/config/index.js"
     }
   },
   "bin": {
-    "web": "bin/index.js"
+    "web": "dist/bin/index.js"
   },
   "keywords": [
     "cli",
@@ -55,7 +56,7 @@
     "brave"
   ],
   "files": [
-    "bin"
+    "dist"
   ],
   "engines": {
     "node": ">=16.10.0"
@@ -81,6 +82,7 @@
     "husky": "^9.1.7",
     "rimraf": "^6.0.1",
     "semantic-release": "^24.2.1",
+    "tsc-alias": "^1.8.10",
     "typescript": "^5.4.5"
   }
 }

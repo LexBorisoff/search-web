@@ -2,7 +2,7 @@ import { getBrowsersData } from './get-browsers-data.js';
 import { getEnginesData } from './get-engines-data.js';
 import { getProfilesData } from './get-profiles-data.js';
 
-import type { WithAlias } from '../types/config.types.js';
+import type { WithAlias } from '@app-types/config.types.js';
 
 const browsersData = getBrowsersData();
 const enginesData = getEnginesData();

@@ -1,9 +1,10 @@
 import chalk from 'chalk';
 
-import { queryArgs } from '../command/args/query-args.js';
-import { logger } from '../helpers/utils/logger.js';
-import { capitalize } from '../helpers/utils/transform-text.js';
-import { BrowserProfileQuery } from '../types/query.types.js';
+import { queryArgs } from '@command/args/query-args.js';
+import { logger } from '@helpers/utils/logger.js';
+import { capitalize } from '@helpers/utils/transform-text.js';
+
+import type { BrowserProfileQuery } from '@app-types/query.types.js';
 
 const { incognito, test } = queryArgs;
 

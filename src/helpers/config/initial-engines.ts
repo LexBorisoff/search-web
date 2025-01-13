@@ -1,4 +1,4 @@
-import type { ConfigDataDto } from '../../types/config.types.js';
+import type { ConfigDataDto } from '@app-types/config.types.js';
 
 export const initialEngines: NonNullable<ConfigDataDto['engines']> = {
   google: {
