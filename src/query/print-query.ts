@@ -1,17 +1,19 @@
-import chalk from "chalk";
-import { logger } from "../helpers/utils/logger.js";
-import { capitalize } from "../helpers/utils/transform-text.js";
-import { BrowserProfileQuery } from "../types/query.types.js";
-import { queryArgs } from "../command/args/query-args.js";
+import chalk from 'chalk';
+
+import { queryArgs } from '@command/args/query-args.js';
+import { logger } from '@helpers/utils/logger.js';
+import { capitalize } from '@helpers/utils/transform-text.js';
+
+import type { BrowserProfileQuery } from '@app-types/query.types.js';
 
 const { incognito, test } = queryArgs;
 
 export function printQuery(
   urls: string[],
-  browserQueries: BrowserProfileQuery[]
+  browserQueries: BrowserProfileQuery[],
 ): void {
   if (test) {
-    logger.warning("[test]");
+    logger.warning('[test]');
   }
 
   browserQueries.forEach((browserQuery) => {
@@ -19,11 +21,11 @@ export function printQuery(
     let browserInfo = logger.level.info(capitalize(browser));
 
     if (profiles.length > 0) {
-      browserInfo += ` (${chalk.gray(profiles.join(", "))})`;
+      browserInfo += ` (${chalk.gray(profiles.join(', '))})`;
     }
 
     if (incognito) {
-      browserInfo += chalk.gray(" [private tab]");
+      browserInfo += chalk.gray(' [private tab]');
     }
 
     logger(browserInfo);

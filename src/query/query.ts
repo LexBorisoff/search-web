@@ -1,9 +1,10 @@
-import { validateArgs } from "../command/args/validate-args.js";
-import { logger } from "../helpers/utils/logger.js";
-import { getQueryEngines } from "./get-query-engines.js";
-import { openUrls } from "./open-urls.js";
-import { getUrls } from "./get-urls.js";
-import { printQuery } from "./print-query.js";
+import { validateArgs } from '@command/args/validate-args.js';
+import { logger } from '@helpers/utils/logger.js';
+
+import { getQueryEngines } from './get-query-engines.js';
+import { getUrls } from './get-urls.js';
+import { openUrls } from './open-urls.js';
+import { printQuery } from './print-query.js';
 
 export function query(): void {
   const errors = validateArgs();

@@ -1,44 +1,47 @@
-import * as fs from "node:fs";
-import * as path from "node:path";
-import { execa } from "execa";
-import { logger } from "../../helpers/utils/logger.js";
-import { fileContents } from "./file-contents.js";
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+
+import { execa } from 'execa';
+
+import { logger } from '@helpers/utils/logger.js';
+
+import { fileContents } from './file-contents/index.js';
 
 interface File {
   fileName: string;
   contents: string;
 }
 
-type ConfigFile = "eslint" | "tsconfig" | "gitignore" | "eslintignore";
-type SourceFile = "engines" | "browsers";
+type ConfigFile = 'eslint' | 'prettier' | 'tsconfig' | 'gitignore';
+type SourceFile = 'engines' | 'browsers';
 
-export const srcDir = "src";
+export const srcDir = 'src';
 export const srcFiles: Record<SourceFile, File> = {
   engines: {
     fileName: `${srcDir}/engines.ts`,
-    contents: fileContents.enginesConfig,
+    contents: fileContents.engines,
   },
   browsers: {
     fileName: `${srcDir}/browsers.ts`,
-    contents: fileContents.browsersConfig,
+    contents: fileContents.browsers,
   },
 } as const;
 
 const configFiles: Record<ConfigFile, File> = {
   tsconfig: {
-    fileName: "tsconfig.json",
+    fileName: 'tsconfig.json',
     contents: fileContents.tsconfig,
   },
   eslint: {
-    fileName: ".eslintrc.cjs",
-    contents: fileContents.eslintrc,
+    fileName: 'eslint.config.js',
+    contents: fileContents.eslint,
   },
-  eslintignore: {
-    fileName: ".eslintignore",
-    contents: fileContents.eslintignore,
+  prettier: {
+    fileName: '.prettierrc',
+    contents: fileContents.prettier,
   },
   gitignore: {
-    fileName: ".gitignore",
+    fileName: '.gitignore',
     contents: fileContents.gitignore,
   },
 };
@@ -65,7 +68,7 @@ export class ProjectFilesBuilder {
         this.#createFile(srcFile);
       });
 
-      await execa("npx", ["prettier", "--write", `${srcDir}/*.ts`]);
+      await execa('npx', ['prettier', '--write', `${srcDir}/*.ts`]);
     } catch {
       logger.error(`Could not create directory "${srcDir}"`);
     }
@@ -93,12 +96,12 @@ export async function createProjectFiles(projectPath: string): Promise<void> {
   try {
     builder.config();
   } catch {
-    throw new CreateError("config");
+    throw new CreateError('config');
   }
 
   try {
     await builder.src();
   } catch {
-    throw new CreateError("source");
+    throw new CreateError('source');
   }
 }

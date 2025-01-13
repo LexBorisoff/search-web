@@ -1,68 +1,67 @@
-import * as fs from "node:fs";
-import * as path from "node:path";
-import { execa } from "execa";
-import { PackageJson } from "type-fest";
-import { getPackageJson } from "../../helpers/project/get-package-json.js";
-import { readFile } from "../../helpers/utils/read-file.js";
-import { parseData } from "../../helpers/utils/parse-data.js";
-import { srcFiles } from "./create-project-files.js";
-import { PackageManager } from "./package-manager/package-manager.enum.js";
-import { pmCommands } from "./package-manager/pm-commands.js";
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+
+import { execa } from 'execa';
+import { PackageJson } from 'type-fest';
+
+import { getPackageJson } from '@helpers/project/get-package-json.js';
+import { parseData } from '@helpers/utils/parse-data.js';
+import { readFile } from '@helpers/utils/read-file.js';
+
+import { srcFiles } from './create-project-files.js';
 
 const packageVersion = getPackageJson().version!;
 const packageName = getPackageJson().name!;
 
 export const initializeProject = {
   async git() {
-    await execa("git", ["init"]);
+    await execa('git', ['init']);
   },
 
-  async dependencies(projectName: string, pm: PackageManager) {
-    if (projectName.startsWith(".")) {
+  async dependencies(projectName: string) {
+    if (projectName.startsWith('.')) {
       fs.writeFileSync(
-        "package.json",
-        JSON.stringify({ name: projectName.replace(/^\.+/, "") })
+        'package.json',
+        JSON.stringify({ name: projectName.replace(/^\.+/, '') }),
       );
     }
 
-    await execa("npm", ["init", "-y"]);
+    await execa('npm', ['init', '-y']);
 
-    const thisProject = `${packageName}@${process.env.WEB_CLI_VERSION || packageVersion}`;
-    const dependencies = [thisProject];
+    const dependencies: string[] = [];
+
+    if (process.env.IS_DEV_SEARCH_WEB !== 'true') {
+      dependencies.push(`${packageName}@${packageVersion}`);
+    }
 
     const devDependencies = [
-      `typescript`,
-      `tsx`,
-      `eslint`,
-      `prettier`,
-      `@typescript-eslint/eslint-plugin`,
-      `@typescript-eslint/parser`,
-      `eslint-config-prettier`,
-      `eslint-import-resolver-typescript`,
-      `eslint-plugin-import`,
-      `eslint-plugin-prettier`,
+      'typescript',
+      'tsx',
+      '@lexjs/eslint-plugin',
+      'prettier',
     ];
 
-    // do not install this project when in dev environment
-    const { install, saveDev } = pmCommands[pm];
-
     if (dependencies.length > 0) {
-      await execa(pm, [install, ...dependencies]);
+      await execa('npm', ['install', ...dependencies]);
     }
 
     if (devDependencies.length > 0) {
-      await execa(pm, [install, saveDev, ...devDependencies]);
+      await execa('npm', ['install', '--save-dev', ...devDependencies]);
     }
 
-    const configFile = path.resolve(process.cwd(), "package.json");
+    if (process.env.IS_DEV_SEARCH_WEB === 'true') {
+      await execa('npm', ['link', packageName]);
+    }
+
+    const configFile = path.resolve(process.cwd(), 'package.json');
     const contents = readFile(configFile);
     const data = parseData<PackageJson>(contents) ?? {};
 
-    data.type = "module";
+    data.type = 'module';
     data.scripts = {
-      config: `${pm} run config:browsers && ${pm} run config:engines`,
-      "config:browsers": `tsx ${srcFiles.browsers.fileName}`,
-      "config:engines": `tsx ${srcFiles.engines.fileName}`,
+      config: `npm run config:browsers && npm run config:engines`,
+      'config:browsers': `tsx ${srcFiles.browsers.fileName}`,
+      'config:engines': `tsx ${srcFiles.engines.fileName}`,
     };
 
     const space = 2;

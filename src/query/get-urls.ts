@@ -1,12 +1,13 @@
-import {
+import { dataArgs } from '@command/args/data-args.js';
+import { queryArgs, urlArgs } from '@command/args/query-args.js';
+import { findNested } from '@helpers/find/find-nested.js';
+
+import type {
   Engine,
   ResourceConfig,
   ResourceObject,
   SearchConfig,
-} from "@lexjs/web-search";
-import { queryArgs, urlArgs } from "../command/args/query-args.js";
-import { findNested } from "../helpers/find/find-nested.js";
-import { dataArgs } from "../command/args/data-args.js";
+} from '@api/index.js';
 
 const { _: args, resource, http } = queryArgs;
 const engineArgs = dataArgs.engine();
@@ -16,16 +17,16 @@ const port = portArgs.length === 0 ? undefined : portArgs;
 // if there are no engine args and all value args are URLs,
 // remove URL args from keywords list because they are used as engines
 const keywords: string[] = args.filter(
-  (keyword) => engineArgs.length > 0 || !urlArgs || !urlArgs.includes(keyword)
+  (keyword) => engineArgs.length > 0 || !urlArgs || !urlArgs.includes(keyword),
 );
 
 function handleResource(
   engine: Engine<SearchConfig, ResourceConfig>,
-  resourceValue: string
+  resourceValue: string,
 ): string[] {
-  const splitter = "::";
+  const splitter = '::';
 
-  function findResourceByValue(resources: ResourceObject) {
+  function findResourceByValue(resources: ResourceObject): string | null {
     return findNested<string>(resources, resourceValue, resourceValue);
   }
 
@@ -38,11 +39,11 @@ function handleResource(
       }
 
       const [resourceKey] = resourceValue.split(splitter);
-      const isEscaped = resourceKey.startsWith("/");
+      const isEscaped = resourceKey.startsWith('/');
       // do not search in config if resource key starts with slash
       return isEscaped
         ? resourceKey.slice(1)
-        : findNested<string>(config, resourceKey, resourceKey) ?? resourceKey;
+        : (findNested<string>(config, resourceKey, resourceKey) ?? resourceKey);
     },
     {
       path(config = {}) {
@@ -56,19 +57,19 @@ function handleResource(
           if (pathKeys.length > 0) {
             const result = pathKeys
               .reduce<string[]>((acc, pathKey) => {
-                const isEscaped = pathKey.startsWith("/");
+                const isEscaped = pathKey.startsWith('/');
                 acc.push(
                   // do not search in config if path key starts with slash
                   isEscaped
                     ? pathKey.slice(1)
-                    : findNested<string>(config, pathKey, "") ?? pathKey
+                    : (findNested<string>(config, pathKey, '') ?? pathKey),
                 );
 
                 return acc;
               }, [])
               .reduce<string>((acc, value) => {
-                return `${acc}${value.startsWith("?") ? value : `/${value}`}`;
-              }, "");
+                return `${acc}${value.startsWith('?') ? value : `/${value}`}`;
+              }, '');
 
             return [...keywords, result];
           }
@@ -78,21 +79,21 @@ function handleResource(
       },
       port,
       unsecureHttp: http,
-    }
+    },
   );
 }
 
-function handleQuery(config: SearchConfig = { main: "/" }): string | string[] {
+function handleQuery(config: SearchConfig = { main: '/' }): string | string[] {
   function getQuery(search: string): string {
-    return typeof config !== "string"
-      ? findNested<string>(config, search, search) ?? search
+    return typeof config !== 'string'
+      ? (findNested<string>(config, search, search) ?? search)
       : search;
   }
 
   const { search } = queryArgs;
 
   if (search == null) {
-    return typeof config === "string" ? config : config.main;
+    return typeof config === 'string' ? config : config.main;
   }
 
   if (Array.isArray(search)) {
@@ -103,7 +104,7 @@ function handleQuery(config: SearchConfig = { main: "/" }): string | string[] {
 }
 
 export function getUrls(
-  engine: Engine<SearchConfig, ResourceConfig>
+  engine: Engine<SearchConfig, ResourceConfig>,
 ): string[] {
   if (resource != null) {
     return Array.isArray(resource)
@@ -111,7 +112,7 @@ export function getUrls(
       : handleResource(engine, resource);
   }
 
-  return engine.search(keywords.join(" "), {
+  return engine.search(keywords.join(' '), {
     query: handleQuery,
     port,
     split: queryArgs.split,

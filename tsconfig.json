@@ -4,14 +4,24 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
-    "outDir": "./bin",
+    "outDir": "./dist/bin",
     "declaration": true,
-    "declarationDir": "./bin/types",
+    "declarationDir": "./dist/types",
     "isolatedModules": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true
+    "strict": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@app-types/*": ["./src/types/*"],
+      "@api/*": ["./src/api/*"],
+      "@command/*": ["./src/command/*"],
+      "@config/*": ["./src/config/*"],
+      "@data/*": ["./src/data/*"],
+      "@helpers/*": ["./src/helpers/*"],
+      "@query/*": ["./src/query/*"]
+    }
   },
   "include": ["src"]
 }

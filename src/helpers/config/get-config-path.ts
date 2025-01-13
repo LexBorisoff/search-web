@@ -1,38 +1,11 @@
-import * as os from "node:os";
-import * as fs from "node:fs";
-import * as path from "node:path";
-
-export const CONFIG_FILE_NAME = "web-cli.config.json";
+import * as os from 'node:os';
+import * as path from 'node:path';
 
 export function getConfigDirPath(): string {
-  const homedir = os.homedir();
-  let directory: string | undefined;
-  const { platform } = process;
-
-  switch (platform) {
-    case "win32": {
-      directory = path.join(homedir, "AppData", "Roaming");
-      break;
-    }
-    case "darwin": {
-      directory = path.join(homedir, "Library", "Application Support");
-      break;
-    }
-    case "linux": {
-      const configPath = path.join(homedir, ".config");
-      directory = fs.existsSync(configPath) ? configPath : homedir;
-      break;
-    }
-    default: {
-      directory = homedir;
-      break;
-    }
-  }
-
-  return path.join(directory, "@lexjs", "web-cli");
+  return path.join(os.homedir(), '.search-web');
 }
 
 export function getConfigFilePath(): string {
   const configPath = getConfigDirPath();
-  return path.join(configPath, CONFIG_FILE_NAME);
+  return path.join(configPath, 'config.json');
 }

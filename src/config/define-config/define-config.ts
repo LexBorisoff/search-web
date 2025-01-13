@@ -1,8 +1,13 @@
-import * as fs from "node:fs";
-import { getConfigData } from "../../data/get-config-data.js";
-import { getConfigDirPath } from "../../helpers/config/get-config-path.js";
-import { logger } from "../../helpers/utils/logger.js";
-import {
+import * as fs from 'node:fs';
+
+import { getConfigData } from '@data/get-config-data.js';
+import { getConfigDirPath } from '@helpers/config/get-config-path.js';
+import { isValidDateString } from '@helpers/utils/is-valid-date-string.js';
+import { logger } from '@helpers/utils/logger.js';
+
+import { writeConfigFile } from '../write-config-file.js';
+
+import type {
   ConfigDataDto,
   ConfigMetaDto,
   ConfigDataJson,
@@ -14,10 +19,8 @@ import {
   ClearEnginesFn,
   ClearBrowsersFn,
   DefineConfigFn,
-} from "../../types/config.types.js";
-import { writeConfigFile } from "../write-config-file.js";
-import { isValidDateString } from "../../helpers/utils/is-valid-date-string.js";
-import { OmitKey } from "../../types/omit-key.type.js";
+} from '@app-types/config.types.js';
+import type { OmitKey } from '@app-types/omit-key.type.js';
 
 function getConfigMetaDto(meta: ConfigMetaJson = {}): ConfigMetaDto {
   const { projectDir, createdAt, updatedAt } = meta;
@@ -55,7 +58,7 @@ interface ClearConfigProps {
   };
 }
 type UpdateConfigProps<Data extends ConfigDataDto | ConfigDataJson> = Partial<
-  OmitKey<Data, "meta">
+  OmitKey<Data, 'meta'>
 > &
   ClearConfigProps;
 
@@ -63,11 +66,21 @@ function updateConfig<Data extends ConfigDataDto>({
   engines,
   browsers,
   clear,
-}: UpdateConfigProps<Data>) {
+}: UpdateConfigProps<Data>): void {
   const config = getConfigData();
 
   try {
-    const updated = {
+    const configDir = getConfigDirPath();
+    if (!fs.existsSync(configDir)) {
+      try {
+        fs.mkdirSync(configDir);
+      } catch {
+        logger.error('Could not create config directory');
+        return;
+      }
+    }
+
+    const updated: ConfigDataDto = {
       engines: {
         ...(clear?.engines ? {} : { ...config.engines, ...engines }),
       },
@@ -78,37 +91,27 @@ function updateConfig<Data extends ConfigDataDto>({
     };
 
     writeConfigFile(updated);
-  } catch {
-    logger.error("Could not write to config file");
+  } catch (error) {
+    logger.error('Could not write to config file:', error);
   }
 }
 
-const engineSym: symbol = Symbol("engine");
-const browserSym: symbol = Symbol("browser");
+const ENGINE_SYM = Symbol('engine');
+const BROWSER_SYM = Symbol('browser');
 
-const engine: CreateEngineFn = (baseUrl, config = {}) => {
-  return Object.defineProperty({ ...config, baseUrl }, engineSym, {
+const engine: CreateEngineFn = (baseUrl, config = {}): ConfigEngine => {
+  return Object.defineProperty({ ...config, baseUrl }, ENGINE_SYM, {
     value: true,
   });
 };
 
-const browser: CreateBrowserFn = (config = {}) => {
-  return Object.defineProperty(config, browserSym, {
+const browser: CreateBrowserFn = (config = {}): ConfigBrowser => {
+  return Object.defineProperty(config, BROWSER_SYM, {
     value: true,
   });
 };
 
 export const defineConfig: DefineConfigFn = function defineConfig(define) {
-  const configDir = getConfigDirPath();
-  if (!fs.existsSync(configDir)) {
-    try {
-      fs.mkdirSync(configDir);
-    } catch {
-      logger.error("Could not create config directory");
-      return;
-    }
-  }
-
   const definedConfig = define({ engine, browser });
 
   const engines = Object.entries(definedConfig).reduce<
@@ -116,7 +119,7 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
   >((result, [key, engineOrBrowser]) => {
     const { value: isEngine } = Object.getOwnPropertyDescriptor(
       engineOrBrowser,
-      engineSym
+      ENGINE_SYM,
     ) ?? { value: false };
 
     if (isEngine) {
@@ -131,7 +134,7 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
   >((result, [key, engineOrBrowser]) => {
     const { value: isBrowser } = Object.getOwnPropertyDescriptor(
       engineOrBrowser,
-      browserSym
+      BROWSER_SYM,
     ) ?? { value: false };
 
     if (isBrowser) {
