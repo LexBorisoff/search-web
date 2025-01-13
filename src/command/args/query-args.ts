@@ -1,9 +1,10 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
-import { matchers } from '../../api/index.js';
-import { configFlags } from '../../data/config-flags.js';
-import { getPackageJson } from '../../helpers/project/get-package-json.js';
+import { matchers } from '@api/index.js';
+import { configFlags } from '@data/config-flags.js';
+import { getPackageJson } from '@helpers/project/get-package-json.js';
+
 import {
   QueryOptions as Options,
   queryAlias as alias,
@@ -11,7 +12,7 @@ import {
   queryOptionTypes as types,
 } from '../options.js';
 
-import type { ArrayArgs } from '../../types/arg.types.js';
+import type { ArrayArgs } from '@app-types/arg.types.js';
 
 const version = getPackageJson().version!;
 

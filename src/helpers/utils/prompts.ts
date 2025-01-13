@@ -9,7 +9,7 @@ import type {
   TextReturn,
   ToggleOptions,
   ToggleReturn,
-} from '../../types/prompts.types.js';
+} from '@app-types/prompts.types.js';
 import type { Choice, Options } from 'prompts';
 
 export const prompts = {

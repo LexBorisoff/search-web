@@ -1,8 +1,8 @@
-import { getBrowsersData } from '../../data/get-browsers-data.js';
+import { getBrowsersData } from '@data/get-browsers-data.js';
 
 import { findConfigItem } from './find-config-item.js';
 
-import type { ConfigBrowser } from '../../types/config.types.js';
+import type { ConfigBrowser } from '@app-types/config.types.js';
 
 const browsersData = getBrowsersData();
 

@@ -1,13 +1,11 @@
 import chalk from 'chalk';
 
-import { matchers } from '../../api/index.js';
-import {
-  configEngineFlags,
-  browserProfileFlags,
-} from '../../data/config-flags.js';
-import { defaultsData } from '../../data/defaults-data.js';
-import { getBrowserName } from '../../helpers/browser/get-browser-name.js';
-import { logger } from '../../helpers/utils/logger.js';
+import { matchers } from '@api/index.js';
+import { configEngineFlags, browserProfileFlags } from '@data/config-flags.js';
+import { defaultsData } from '@data/defaults-data.js';
+import { getBrowserName } from '@helpers/browser/get-browser-name.js';
+import { logger } from '@helpers/utils/logger.js';
+
 import { QueryOptions as Options } from '../options.js';
 
 import { dataArgs } from './data-args.js';

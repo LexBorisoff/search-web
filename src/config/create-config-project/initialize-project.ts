@@ -4,9 +4,9 @@ import * as path from 'node:path';
 import { execa } from 'execa';
 import { PackageJson } from 'type-fest';
 
-import { getPackageJson } from '../../helpers/project/get-package-json.js';
-import { parseData } from '../../helpers/utils/parse-data.js';
-import { readFile } from '../../helpers/utils/read-file.js';
+import { getPackageJson } from '@helpers/project/get-package-json.js';
+import { parseData } from '@helpers/utils/parse-data.js';
+import { readFile } from '@helpers/utils/read-file.js';
 
 import { srcFiles } from './create-project-files.js';
 

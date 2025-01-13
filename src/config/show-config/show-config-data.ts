@@ -1,11 +1,12 @@
 import chalk from 'chalk';
 
-import { getBrowsersData } from '../../data/get-browsers-data.js';
-import { getEnginesData } from '../../data/get-engines-data.js';
-import { logger } from '../../helpers/utils/logger.js';
+import { getBrowsersData } from '@data/get-browsers-data.js';
+import { getEnginesData } from '@data/get-engines-data.js';
+import { logger } from '@helpers/utils/logger.js';
+
 import { ConfigAction } from '../get-config-action.js';
 
-import type { IsDefault, WithAlias } from '../../types/config.types.js';
+import type { IsDefault, WithAlias } from '@app-types/config.types.js';
 
 interface PrintDataOptions {
   isDefault?: boolean;

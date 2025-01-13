@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 
-import { logger } from '../../helpers/utils/logger.js';
+import { logger } from '@helpers/utils/logger.js';
 
 export function printInstructions(projectName: string): void {
   const left = '  ';

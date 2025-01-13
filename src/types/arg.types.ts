@@ -1,7 +1,7 @@
 import {
   QueryOptions as Options,
   queryOptionTypes as types,
-} from '../command/options.js';
+} from '@command/options.js';
 
 import type { PrimitiveType } from './primitive.type.js';
 

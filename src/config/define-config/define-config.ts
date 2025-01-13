@@ -1,10 +1,13 @@
 import * as fs from 'node:fs';
 
-import { getConfigData } from '../../data/get-config-data.js';
-import { getConfigDirPath } from '../../helpers/config/get-config-path.js';
-import { isValidDateString } from '../../helpers/utils/is-valid-date-string.js';
-import { logger } from '../../helpers/utils/logger.js';
-import {
+import { getConfigData } from '@data/get-config-data.js';
+import { getConfigDirPath } from '@helpers/config/get-config-path.js';
+import { isValidDateString } from '@helpers/utils/is-valid-date-string.js';
+import { logger } from '@helpers/utils/logger.js';
+
+import { writeConfigFile } from '../write-config-file.js';
+
+import type {
   ConfigDataDto,
   ConfigMetaDto,
   ConfigDataJson,
@@ -16,9 +19,8 @@ import {
   ClearEnginesFn,
   ClearBrowsersFn,
   DefineConfigFn,
-} from '../../types/config.types.js';
-import { OmitKey } from '../../types/omit-key.type.js';
-import { writeConfigFile } from '../write-config-file.js';
+} from '@app-types/config.types.js';
+import type { OmitKey } from '@app-types/omit-key.type.js';
 
 function getConfigMetaDto(meta: ConfigMetaJson = {}): ConfigMetaDto {
   const { projectDir, createdAt, updatedAt } = meta;

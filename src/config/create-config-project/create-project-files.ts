@@ -3,7 +3,7 @@ import * as path from 'node:path';
 
 import { execa } from 'execa';
 
-import { logger } from '../../helpers/utils/logger.js';
+import { logger } from '@helpers/utils/logger.js';
 
 import { fileContents } from './file-contents/index.js';
 

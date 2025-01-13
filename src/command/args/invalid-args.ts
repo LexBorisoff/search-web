@@ -1,4 +1,5 @@
-import { configFlags } from '../../data/config-flags.js';
+import { configFlags } from '@data/config-flags.js';
+
 import { queryOptions, yargsOptions } from '../options.js';
 
 import { queryArgs } from './query-args.js';

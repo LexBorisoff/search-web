@@ -1,8 +1,8 @@
 import {
   defaultEngine,
   defaultDelimiter as delimiter,
-} from '../helpers/config/defaults.js';
-import { initialEngines } from '../helpers/config/initial-engines.js';
+} from '@helpers/config/defaults.js';
+import { initialEngines } from '@helpers/config/initial-engines.js';
 
 import { getBrowsersData } from './get-browsers-data.js';
 import { getEnginesData } from './get-engines-data.js';
@@ -12,7 +12,7 @@ import type {
   ConfigEngine,
   DefaultsData,
   IsDefault,
-} from '../types/config.types.js';
+} from '@app-types/config.types.js';
 
 function getDefault<Data extends IsDefault>(
   data: Data,

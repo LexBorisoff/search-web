@@ -1,8 +1,8 @@
 import * as fs from 'node:fs';
 
-import { getConfigFilePath } from '../helpers/config/get-config-path.js';
+import { getConfigFilePath } from '@helpers/config/get-config-path.js';
 
-import type { ConfigDataDto } from '../types/config.types.js';
+import type { ConfigDataDto } from '@app-types/config.types.js';
 
 export function writeConfigFile(data: ConfigDataDto): void {
   const configFile = getConfigFilePath();

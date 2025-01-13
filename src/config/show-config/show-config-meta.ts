@@ -1,11 +1,12 @@
-import { getConfigFilePath } from '../../helpers/config/get-config-path.js';
-import { isValidDateString } from '../../helpers/utils/is-valid-date-string.js';
-import { logger } from '../../helpers/utils/logger.js';
-import { parseData } from '../../helpers/utils/parse-data.js';
-import { readFile } from '../../helpers/utils/read-file.js';
+import { getConfigFilePath } from '@helpers/config/get-config-path.js';
+import { isValidDateString } from '@helpers/utils/is-valid-date-string.js';
+import { logger } from '@helpers/utils/logger.js';
+import { parseData } from '@helpers/utils/parse-data.js';
+import { readFile } from '@helpers/utils/read-file.js';
+
 import { ConfigAction } from '../get-config-action.js';
 
-import type { ConfigDataJson } from '../../types/config.types.js';
+import type { ConfigDataJson } from '@app-types/config.types.js';
 
 const configPath = getConfigFilePath();
 const { meta } = parseData<ConfigDataJson>(readFile(configPath)) ?? {};

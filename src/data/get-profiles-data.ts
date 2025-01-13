@@ -1,6 +1,6 @@
 import { getBrowsersData } from './get-browsers-data.js';
 
-import type { ProfilesData } from '../types/config.types.js';
+import type { ProfilesData } from '@app-types/config.types.js';
 
 export function getProfilesData(browserName: string): ProfilesData {
   const config = getBrowsersData();
