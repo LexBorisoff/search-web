@@ -23,7 +23,7 @@ export async function getConfigAction(): Promise<ConfigAction | undefined> {
     {
       title: 'Engines',
       value: ConfigAction.Engines,
-      description: `show${
+      description: `List${
         Object.keys(configData.engines ?? {}).length > 0 ? ' config' : ''
       } engines`,
       show: true,
@@ -31,31 +31,31 @@ export async function getConfigAction(): Promise<ConfigAction | undefined> {
     {
       title: 'Browsers',
       value: ConfigAction.Browsers,
-      description: 'show config browsers',
+      description: 'List config browsers',
       show: configExists,
     },
     {
       title: 'Directory',
       value: ConfigAction.Directory,
-      description: "show config's project directory",
+      description: "Show config's project directory",
       show: configExists,
     },
     {
       title: 'Updated',
       value: ConfigAction.Updated,
-      description: 'show when config was last updated',
+      description: 'Show when config was last updated',
       show: configExists,
     },
     {
       title: 'Created',
       value: ConfigAction.Created,
-      description: 'show when config was created',
+      description: 'Show when config was created',
       show: configExists,
     },
     {
       title: 'New Config',
       value: ConfigAction.NewConfig,
-      description: 'create a new config project',
+      description: 'Create a new config project',
       show: true,
     },
   ];
