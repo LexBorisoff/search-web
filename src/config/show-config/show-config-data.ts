@@ -1,10 +1,11 @@
 import chalk from 'chalk';
 
 import { getBrowsersData } from '@data/get-browsers-data.js';
-import { getEnginesData } from '@data/get-engines-data.js';
 import { logger } from '@helpers/utils/logger.js';
 
 import { ConfigAction } from '../get-config-action.js';
+
+import { showEngines } from './show-engines.js';
 
 import type { IsDefault, WithAlias } from '@app-types/config.types.js';
 
@@ -14,14 +15,14 @@ interface PrintDataOptions {
 }
 function printDataInfo<D extends WithAlias>(
   key: string,
-  engine: D,
+  item: D,
   { isDefault, extra }: PrintDataOptions = {},
 ): void {
   let info = logger.level.info(key);
 
-  if (engine.alias) {
+  if (item.alias) {
     info += ' | ';
-    const aliases = Array.isArray(engine.alias) ? engine.alias : [engine.alias];
+    const aliases = Array.isArray(item.alias) ? item.alias : [item.alias];
     info += aliases.map((alias) => logger.level.info(alias)).join(' | ');
   }
 
@@ -78,10 +79,5 @@ export const showConfigData = {
     });
   },
 
-  [ConfigAction.Engines]() {
-    const engines = getEnginesData();
-    handleData(engines, {
-      extra: (engine) => ` > ${logger.level.success(engine.baseUrl)}`,
-    });
-  },
+  [ConfigAction.Engines]: showEngines,
 };
