@@ -1,8 +1,9 @@
 import * as fs from 'node:fs';
 
+import $_ from '@lexjs/prompts';
+
 import { getConfigData } from '@data/get-config-data.js';
 import { getConfigFilePath } from '@helpers/config/get-config-path.js';
-import { prompts } from '@helpers/utils/prompts.js';
 
 export enum ConfigAction {
   Browsers = 'browsers',
@@ -67,7 +68,7 @@ export async function getConfigAction(): Promise<ConfigAction | undefined> {
       description,
     }));
 
-  const { answer } = await prompts.select({
+  const { answer } = await $_.select({
     name: 'answer',
     message: 'Choose an option',
     choices,
