@@ -1,109 +1,94 @@
-import chalk from 'chalk';
-
 import { ConfigEngine } from '@app-types/config.types.js';
 import { getEnginesData } from '@data/get-engines-data.js';
 import { logger } from '@helpers/utils/logger.js';
 
-const engines = getEnginesData();
-const aliasesSeparator = ', ';
+import { gutter, marked } from './utils/constants.js';
+import { fillCell, fillHeaderCell, type HeaderKey } from './utils/fill-cell.js';
+import { getAliasesString } from './utils/get-aliases.js';
+import { getDefaultKey } from './utils/get-default-key.js';
+import { getLongestCell } from './utils/get-longest-cell.js';
+import { sortByName } from './utils/sort.js';
 
+const engines = getEnginesData();
+const defaultEngineKey = getDefaultKey(engines);
+const longestCell = getLongestCell(engines);
+const hasAliases = longestCell.alias.length > 0;
+
+const minFill = hasAliases ? 2 : 4;
 const headerColumns = {
   key: 'Engine',
   alias: 'Aliases',
   domain: 'Domain',
 };
 
-interface FillOptions {
-  minFill: number;
-  length: number;
-  longest: number;
+function fill(key: string, headerKey: HeaderKey): string {
+  return fillCell({ key, headerKey, headerColumns, longestCell, minFill });
 }
 
-function getFill({ minFill, length, longest }: FillOptions): string {
-  const fill = '.'.repeat(longest - length + minFill);
-  const styled = chalk.gray(fill);
-  const empty = chalk.gray('.');
-  return length === 0 ? empty + styled + ' ' : ' ' + styled + ' ';
+function fillHeader(headerKey: HeaderKey): string {
+  return fillHeaderCell({ headerKey, headerColumns, longestCell, minFill });
 }
 
-function getEngineAliases(engine: ConfigEngine): string[] {
-  if (engine.alias == null) {
-    return [];
-  }
+function getRestDiff(): number {
+  const longestDomain = Object.entries(engines).sort(
+    ([, a], [, b]) => b.baseUrl.length - a.baseUrl.length,
+  )[0][1].baseUrl;
 
-  return Array.isArray(engine.alias) ? engine.alias : [engine.alias];
+  return headerColumns.domain.length > longestDomain.length
+    ? 0
+    : longestDomain.length - headerColumns.domain.length;
 }
 
-// default engine
-const [firstEngineKey] = Object.keys(engines);
-const [defaultEngineKey] = Object.entries(engines).find(
-  ([, { isDefault }]) => isDefault,
-) ?? [firstEngineKey];
+function displayHeader(): number {
+  const keyFill = fillHeader('key');
+  const aliasFill = hasAliases ? fillHeader('alias') : '';
 
-// sort engines by name with default engine first
-const sortedEngines = Object.keys(engines)
-  .sort((a, b) => a.localeCompare(b))
-  .reduce<Record<string, ConfigEngine>>(
-    (acc, key) => {
-      if (key !== defaultEngineKey) {
-        acc[key] = engines[key];
-      }
-      return acc;
-    },
-    { [defaultEngineKey]: engines[defaultEngineKey] },
-  );
+  const engine = headerColumns.key;
+  const aliases = hasAliases ? headerColumns.alias : '';
+  const domain = headerColumns.domain;
 
-// sort engines by length
-const sortedByLength = {
-  engine: Object.keys(engines).sort((a, b) => b.length - a.length),
-  alias: Object.entries(engines).sort(([, a], [, b]) => {
-    const aliasesA = getEngineAliases(a).join(aliasesSeparator);
-    const aliasesB = getEngineAliases(b).join(aliasesSeparator);
-    return aliasesB.length - aliasesA.length;
-  }),
-};
+  const header = `${engine}${keyFill}${aliases}${aliasFill}${domain}`;
+  const length = header.length + getRestDiff();
 
-const longest: { engine: string; alias: string } = {
-  engine: sortedByLength.engine[0],
-  alias: getEngineAliases(sortedByLength.alias[0][1]).join(aliasesSeparator),
-};
+  logger('\n' + gutter + header);
+  logger(gutter + '-'.repeat(length));
 
-const hasAliases = longest.alias.length > 0;
+  return length;
+}
 
-const display = ([key, engine]: [key: string, engine: ConfigEngine]): void => {
-  const engineName = logger.level.warning(key);
-  const aliases = getEngineAliases(engine).join(aliasesSeparator);
-  const aliasesStyled = logger.level.info.bold(aliases);
-  const url = logger.level.success.italic(engine.baseUrl);
-  const isDefault =
-    key === defaultEngineKey ? chalk.gray.italic(' (default)') : '';
+function displayAliases(engineKey: string, engine: ConfigEngine): string {
+  const aliases = getAliasesString(engine);
+  return hasAliases
+    ? `${fill(engineKey, 'key')}${logger.level.info(aliases)}`
+    : '';
+}
 
-  const fill1 = getFill({
-    minFill: hasAliases ? 2 : 4,
-    length: key.length,
-    longest:
-      headerColumns.key.length > longest.engine.length
-        ? headerColumns.key.length
-        : longest.engine.length,
-  });
-
-  const fill2 = getFill({
-    minFill: 2,
-    length: aliases.length,
-    longest:
-      headerColumns.alias.length > longest.alias.length
-        ? headerColumns.alias.length
-        : longest.alias.length,
-  });
+function displayUrl(engineKey: string, engine: ConfigEngine): string {
+  const aliases = getAliasesString(engine);
 
   if (hasAliases) {
-    logger(`${engineName}${fill1}${aliasesStyled}${fill2}${url}${isDefault}`);
-    return;
+    return `${fill(aliases, 'alias')}${logger.level.success(engine.baseUrl)}`;
   }
 
-  logger(`${engineName}${fill1}${url}${isDefault}`);
-};
+  return `${fill(engineKey, 'key')}${logger.level.success(engine.baseUrl)}`;
+}
+
+function displayGutter(engineName: string): string {
+  return engineName === defaultEngineKey ? marked : gutter;
+}
 
 export function showEngines(): void {
-  Object.entries(sortedEngines).forEach(display);
+  const sortedEngines = sortByName(engines);
+
+  const headerLength = displayHeader();
+
+  Object.entries(sortedEngines).forEach(([key, value]) => {
+    const engine = logger.level.warning(key);
+    const aliases = displayAliases(key, value);
+    const url = displayUrl(key, value);
+    const prefix = displayGutter(key);
+    logger(`${prefix}${engine}${aliases}${url}`);
+  });
+
+  logger(gutter + '-'.repeat(headerLength));
 }

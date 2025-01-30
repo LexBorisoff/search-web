@@ -2,7 +2,7 @@ import * as fs from 'node:fs';
 
 import $_ from '@lexjs/prompts';
 
-import { getConfigData } from '@data/get-config-data.js';
+import { getBrowsersData } from '@data/get-browsers-data.js';
 import { getConfigFilePath } from '@helpers/config/get-config-path.js';
 
 export enum ConfigAction {
@@ -15,29 +15,27 @@ export enum ConfigAction {
 }
 
 export async function getConfigAction(): Promise<ConfigAction | undefined> {
+  const browsers = getBrowsersData();
   const configPath = getConfigFilePath();
   const configExists = fs.existsSync(configPath);
-  const configData = getConfigData();
 
   const actions = [
     {
       title: 'Engines',
       value: ConfigAction.Engines,
-      description: `List${
-        Object.keys(configData.engines ?? {}).length > 0 ? ' config' : ''
-      } engines`,
+      description: `List engines`,
       show: true,
     },
     {
       title: 'Browsers',
       value: ConfigAction.Browsers,
-      description: 'List config browsers',
-      show: configExists,
+      description: 'List browsers',
+      show: Object.keys(browsers).length > 0,
     },
     {
       title: 'Directory',
       value: ConfigAction.Directory,
-      description: "Show config's project directory",
+      description: 'Show config project directory',
       show: configExists,
     },
     {
