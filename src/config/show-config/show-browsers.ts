@@ -7,6 +7,7 @@ import { fillCell, fillHeaderCell, type HeaderKey } from './utils/fill-cell.js';
 import { getAliasesString } from './utils/get-aliases.js';
 import { getDefaultKey } from './utils/get-default-key.js';
 import { getLongestCell } from './utils/get-longest-cell.js';
+import { longestProfile } from './utils/longest-profile.js';
 import { sortByName } from './utils/sort.js';
 
 const browsers = getBrowsersData();
@@ -35,13 +36,6 @@ function fillHeader(headerKey: HeaderKey): string {
 
 function getRestDiff(): number {
   if (hasProfiles) {
-    const { profiles } = Object.entries(browsers).sort(([, a], [, b]) => {
-      const profilesA = Object.keys(a.profiles ?? {}).join(separator);
-      const profilesB = Object.keys(b.profiles ?? {}).join(separator);
-      return profilesB.length - profilesA.length;
-    })[0][1];
-
-    const longestProfile = Object.keys(profiles ?? {}).join(separator);
     return headerColumns.profiles.length > longestProfile.length
       ? 0
       : longestProfile.length - headerColumns.profiles.length;
@@ -81,15 +75,37 @@ function displayHeader(): number {
 }
 
 function displayAliases(browserKey: string, browser: ConfigBrowser): string {
-  const aliases = getAliasesString(browser);
+  let aliases = getAliasesString(browser);
+
+  if (!hasProfiles) {
+    const aliasesRest = fillCell({
+      key: aliases,
+      headerColumns,
+      headerKey: 'alias',
+      longestCell,
+      minFill: -1, // adjusts adding extra dot after non-empty alias
+    });
+
+    aliases = `${aliases}${aliasesRest}`;
+  }
+
   return hasAliases
     ? `${fill(browserKey, 'key')}${logger.level.info(aliases)}`
     : '';
 }
 
 function displayProfiles(browserKey: string, browser: ConfigBrowser): string {
-  const profiles = Object.keys(browser.profiles ?? {}).join(separator);
   const aliases = getAliasesString(browser);
+
+  let profiles = Object.keys(browser.profiles ?? {}).join(separator);
+  const profilesRest = fillCell({
+    key: profiles,
+    headerColumns,
+    headerKey: 'profiles',
+    longestCell: { ...headerColumns, profiles: longestProfile },
+    minFill: -1, // adjusts adding extra dot after non-empty profiles
+  });
+  profiles = `${profiles}${profilesRest}`;
 
   if (hasAliases) {
     return hasProfiles

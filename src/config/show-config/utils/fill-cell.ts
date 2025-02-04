@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 
-export type HeaderKey = 'key' | 'alias';
+export type HeaderKey = 'key' | 'alias' | (string & {});
 
 interface BaseColumnsInterface {
   key: string;
@@ -15,7 +15,7 @@ interface Options {
   key: string;
   headerKey: HeaderKey;
   headerColumns: HeaderColumns;
-  longestCell: BaseColumnsInterface;
+  longestCell: HeaderColumns;
   minFill: number;
 }
 
@@ -30,7 +30,8 @@ export function fillCell({
   const cell = longestCell[headerKey];
   const longest = header.length > cell.length ? header.length : cell.length;
 
-  const columnFill = '.'.repeat(longest - key.length + minFill);
+  const repeat = longest - key.length + minFill;
+  const columnFill = '.'.repeat(repeat < 0 ? 0 : repeat);
   const styled = chalk.gray(columnFill);
   const empty = chalk.gray('.');
   return key.length === 0 ? empty + styled + ' ' : ' ' + styled + ' ';
