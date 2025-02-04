@@ -17,33 +17,12 @@ concurrency:
 jobs:
   ci:
     name: CI
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: ['18.x', '20.x', '22.x', latest]
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: npm
-
-      - run: npm clean-install
-      - run: npm run ci
+    uses: LexBorisoff/workflows/.github/workflows/ci.yml@main
 
   results:
     name: CI Results
-    runs-on: ubuntu-latest
-    if: ${{ always() && github.event_name == 'pull_request' }}
-
+    if: github.event_name == 'pull_request'
     needs: ci
-    steps:
-      - run: |
-          result="${{ needs.ci.result }}"
-          if [[ $result == "success" || $result == "skipped" ]]; then
-            exit 0
-          else
-            exit 1
-          fi
+    uses: LexBorisoff/workflows/.github/workflows/ci-results.yml@main
+    with:
+      ci-result: ${{ needs.ci.result }}

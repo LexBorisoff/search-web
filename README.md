@@ -36,7 +36,7 @@ CLI for making browser web searches from the shell.
   - [`test`](#test)
 - [Custom Flags](#custom-flags)
 
-# Installation
+## Installation
 
 Install the package globally:
 
@@ -64,7 +64,7 @@ To check the installed version, use the `--version` option:
 
 <pre><code>web <em>--version</em></code></pre>
 
-# Usage
+## Usage
 
 To perform basic web queries, provide **_space-separated values_**
 
@@ -77,7 +77,7 @@ There are 2 types of values:
 1. Keywords
 2. URLs
 
-## Keywords
+### Keywords
 
 When providing keywords, only 1 web query is created using the values as a search term:
 
@@ -94,7 +94,7 @@ In the absence of [_options_](#options), the CLI uses the **_default search engi
 
 You can change these defaults and add new engines and browsers by setting up and running a [_config project_](#configuration).
 
-### _Initial search engines_
+#### _Initial search engines_
 
 | Search Engine |    Option Value     |
 | ------------- | :-----------------: |
@@ -107,7 +107,7 @@ You can change these defaults and add new engines and browsers by setting up and
 
 The option value can be either supplied to the [`--engine`](#engine) option or used as a [_custom flag_](#custom-flags).
 
-## URLs
+### URLs
 
 When providing a URL value, the default behavior is to open it directly:
 
@@ -127,7 +127,7 @@ web github.com npmjs.com developer.mozilla.org
 &gt; `https://npmjs.com`  
 &gt; `https://developer.mozilla.org`
 
-### _Keywords and URLs together_
+#### _Keywords and URLs together_
 
 If both keywords and URLs are provided, then all values are treated as search term keywords:
 
@@ -137,7 +137,7 @@ web most starred repos on github.com
 
 &gt; `https://google.com/search?q=most%20starred%20repos%20on%20github.com`
 
-# Options
+## Options
 
 Options give you control over web queries by overriding the CLI's defaults.
 
@@ -166,7 +166,7 @@ which is equivalent to:
 
 > ⚠️ Combining 1-letter aliases of multiple [_value options_](#value-options) will result in invalid queries when such combinations are followed by a value. It is recommended to combine only the [_flag options_](#flag-options) which can be built-in or custom. If you want to add a 1-letter value option, it must be placed at the very end of the combination. If the value option is placed in the middle, the value argument will not get assigned to it.
 
-## Value options
+### Value options
 
 The following are built-in options that require a value:
 
@@ -181,7 +181,7 @@ The following are built-in options that require a value:
 
 All value options work without any initial configuration but most options' usage can be enhanced by setting up the config. Refer to each option as well as [_engines configuration_](#engines-configuration) and [_browsers configuration_](#browsers-configuration) for more details.
 
-## Flag options
+### Flag options
 
 Options that do not require a value are called **_flags_**. The following are built-in flag options:
 
@@ -196,7 +196,7 @@ Options that do not require a value are called **_flags_**. The following are bu
 
 With browsers and engines configuration set up, you can also use [_custom flags_](#custom-flags) which are created from the keys and aliases of _browsers_, _browser profiles_, and _engines_ from the generated config file. Custom flags simplify your web queries by being a convenient substitute for value options.
 
-## Placement
+### Placement
 
 Options can be placed anywhere in the command
 
@@ -214,11 +214,11 @@ The above command will do the following:
 - open the constructed query in a new **_Firefox_** tab (`--browser=firefox`)
 - in **_incognito / private mode_** (`--incognito`)
 
-# Configuration
+## Configuration
 
 Creating configuration allows you to customize the usage of Web CLI and enhance many of the built-in options. Before learning about these options, it is beneficial to know how to create and generate your own custom config.
 
-## Creating a config project
+### Creating a config project
 
 Web CLI allows you to create a config by scaffolding a TypeScript project and then running it with an npm script defined in `package.json`. Even if you are not familiar with TypeScript, you should be able to quickly grasp and navigate around the created application.
 
@@ -235,7 +235,7 @@ As was mentioned earlier, you get access to a set of initial search engines afte
 
 What we need, however, is to select the second option in order to create a new config directory. Once selected, the CLI will help you initialize and scaffold the project.
 
-## Editing the config project
+### Editing the config project
 
 After the scaffolding process is complete, you can navigate to the created directory and open it in your IDE. You can also push it to a remote git repository such as Github to keep your config in sync on different machines.
 
@@ -278,7 +278,7 @@ Since this is a regular TypeScript project, you are free to organize it however 
 - call the `defineConfig` function that defines the engines and/or browsers, and
 - correctly [generate the config file](#generating-the-config-file) (described in the next section)
 
-### **_Defining config_**
+#### **_Defining config_**
 
 `defineConfig` accepts a callback that
 
@@ -293,7 +293,7 @@ type DefineConfigCallback = ({
 }) => Record<string, Engine | Browser>;
 ```
 
-### **_Engines Configuration_**
+#### **_Engines Configuration_**
 
 To create an engine, use the `engine` function from the callback's parameter and assign it to a property of the callback's return object:
 
@@ -471,7 +471,7 @@ When setting this option to true, Web CLI will use that engine when there is no 
 - If multiple default engines are set, the first one will be used (although JavaScript does not guarantee it)
 - If this option is not set on any engine, the first one in the config will be used (again no guarantee)
 
-### **_Browsers Configuration_**
+#### **_Browsers Configuration_**
 
 To create a browser, use the `browser` function from the callback's parameter and assign it to a property of the callback's return object:
 
@@ -587,7 +587,7 @@ defineConfig(({ browser }) => ({
 }));
 ```
 
-## Generating the config file
+### Generating the config file
 
 In order to start using the engines and browsers defined in the previous step, you must generate a **_config file_**. What Web CLI uses to customize its behavior is not the config project itself but rather the config file that gets generated based on the project.
 
@@ -608,7 +608,7 @@ Please note that only 1 config file gets generated even if you call `defineConfi
 
 The location of the generated file is `~/.search-web/config.json`
 
-## Deleting config
+### Deleting config
 
 To delete the config engines or browsers, you can call `clearEngines` and `clearBrowsers` functions:
 
@@ -633,7 +633,7 @@ To apply the changes you need to execute the file(s) where these functions are c
 
 <pre><code>npm run config:clear</code></pre>
 
-# Built-in Options
+## Built-in Options
 
 ## `browser`
 
@@ -642,23 +642,23 @@ Specifies the browser app to open.
 ⚡ Takes a value.  
 ⚙️ Allows configuration.
 
-### _Options_
+### Options
 
 `--browser` `-b`
 
-### _Usage_
+### Usage
 
 <pre><code>web <em>--browser=value</em></code></pre>
 
 `value` is one of the following:
 
-1. #### _Browser app name on your machine, e.g. `chrome`, `firefox`, `brave`, `edge`, etc._
+1. **_Browser app name on your machine_**, e.g. `chrome`, `firefox`, `brave`, `edge`, etc.
 
 <pre><code>web <em>--browser=chrome</em></code></pre>
 
 > ⚠️ The command will not prevent you from specifying a value that refers to an invalid browser or to another non-browser application on your machine. As far as the program is concerned - any value provided to the `browser` option is a possible browser app, so it will attempt to open it.
 
-2. #### _Browser key or alias in the config. For example, `chrome`, `firefox`, `c`, `f`, or `ff`_
+2. **_Browser key or alias in the config._** For example, `chrome`, `firefox`, `c`, `f`, or `ff`
 
 ```typescript
 import { defineConfig } from "search-web/config";
@@ -675,13 +675,13 @@ defineConfig(({ browser }) => ({
 
 <pre><code>web <em>--browser=ff</em></code></pre>
 
-### _Multiple options_
+### Multiple options
 
 You can specify multiple browsers:
 
 <pre><code>web <em>--browser=value</em> <em>--browser=value</em> ...</code></pre>
 
-### _Configuration_
+### Configuration
 
 Setting up [_browsers configuration_](#browsers-configuration) allows using
 
@@ -697,11 +697,11 @@ Specifies what browser profile to use when opening a new browser tab. Learn more
 
 The option works only if the browser application supports profiles functionality. Otherwise, it will have no effect on the opened web query.
 
-### _Options_
+### Options
 
 `--profile` `-p`
 
-### _Usage_
+### Usage
 
 This option relies on the provided `browser` option or generated config.
 
@@ -712,7 +712,7 @@ This option relies on the provided `browser` option or generated config.
 
 `value` is one of the following:
 
-1. #### _Profile directory name. For example `Profile 1`_
+1. **_Profile directory name._** For example `Profile 1`
 
 <pre><code>web <em>--profile="Profile 1"</em></code></pre>
 
@@ -726,7 +726,7 @@ defineConfig(({ browser }) => ({
 }));
 ```
 
-2. #### _Property key in the `profiles` object of the browser config. For example, `dev` or `personal`_
+2. **_Property key in the `profiles` object of the browser config._** For example, `dev` or `personal`
 
 ```typescript
 import { defineConfig } from "search-web/config";
@@ -745,7 +745,7 @@ defineConfig(({ browser }) => ({
 
 <pre><code>web <em>--profile=personal</em></code></pre>
 
-3. #### _Value of a profile's `alias` property. For example, `d`, `p`, or `second`_
+3. **_Value of a profile's `alias` property._** For example, `d`, `p`, or `second`
 
 ```typescript
 import { defineConfig } from "search-web/config";
@@ -768,13 +768,13 @@ defineConfig(({ browser }) => ({
 
 <pre><code>web <em>--profile=p</em></code></pre>
 
-### _Multiple options_
+### Multiple options
 
 You can specify multiple profiles:
 
 <pre><code>web <em>--profile=value</em> <em>--profile=value</em> ...</code></pre>
 
-### _Configuration_
+### Configuration
 
 Setting up [_browsers configuration_](#browsers-configuration) allows using
 
@@ -788,17 +788,17 @@ Specifies what search engine or website to query.
 ⚡ Takes a value.  
 ⚙️ Allows configuration.
 
-### _Options_
+### Options
 
 `--engine` `-e`
 
-### _Usage_
+### Usage
 
 <pre><code>web <em>--engine=value</em></code></pre>
 
 `value` is one of the following:
 
-1. #### _Engine key or alias in the config. For example, `google`, `npm`, `duck`, or `duckduckgo`_
+1. **_Engine key or alias in the config._** For example, `google`, `npm`, `duck`, or `duckduckgo`
 
 ```typescript
 import { defineConfig } from "search-web/config";
@@ -828,7 +828,7 @@ When supplying URL values to the command, this option overrides the default beha
 
 &gt; `https://google.com/search?q=github.com`
 
-2. #### _An arbitrary URL string like `google.com/search?q=` or `example.com`_
+2. **_An arbitrary URL string_** like `google.com/search?q=` or `example.com`
 
 <pre><code>web search-web <em>--engine=npmjs.com/search?q=</em></code></pre>
 
@@ -844,7 +844,7 @@ Note that since a URL value is a basic string, the CLI will simply append it wit
 
 &gt; `https://example.com/hello%20world`
 
-### _Configuration_
+### Configuration
 
 To define more engines and websites than the app defaults, use [_engines configuration_](#engines-configuration).
 
@@ -857,11 +857,11 @@ Specifies what _search path_ to use for querying the provided engine. This searc
 🛠️ Requires keywords.  
 ⚙️ Allows configuration.
 
-### _Options_
+### Options
 
 `--search` `-s`
 
-### _Usage_
+### Usage
 
 This option must be used with the `--engine` option and keywords.
 
@@ -872,13 +872,13 @@ This option must be used with the `--engine` option and keywords.
 
 `value` is one of the following:
 
-1. #### _URL segment string. For example, `search?q=` or `?q=`_
+1. **_URL segment string._** For example, `search?q=` or `?q=`
 
 <pre><code>web <em>--search=?q=</em> <em>--engine=duckduckgo.com</em> hello world</code></pre>
 
 &gt; `https://duckduckgo.com/?q=hello%20world`
 
-2. #### _Search key in the engine's "search" config. For example, `main`, `images`, `bar`, or `deep`_
+2. **_Search key in the engine's "search" config._** For example, `main`, `images`, `bar`, or `deep`
 
 ```typescript
 import { defineConfig } from "search-web/config";
@@ -903,11 +903,11 @@ defineConfig(({ engine }) => ({
 
 Most of the time when queying an engine, the `--search` option will not be provided. In these cases, it defaults to either the string value or the `main` property's value, depending on how the `search` config is set up.
 
-### _Multiple options_
+### Multiple options
 
 Supplying multiple `--search` options will create a separate URL for each value.
 
-### _Configuration_
+### Configuration
 
 Setting up [_engines configuration_](#engines-configuration) allows using search keys as the option's value.
 
@@ -919,11 +919,11 @@ Specifies the delimiter character used by the search engine to separate keywords
 🛠️ Requires an `--engine` option.  
 ❌ No configuration.
 
-### _Options_
+### Options
 
 `--delimiter` `-d`
 
-### _Usage_
+### Usage
 
 This option only works in conjunction with the `--engine` option where [the engine is specified as a URL](#an-arbitrary-url-string-like-googlecomsearchq-or-examplecom). If this option is used with an engine that **_is_** defined in the config, then the option has no effect.
 
@@ -945,11 +945,11 @@ Overrides the default behavior of _querying_ an engine by specifying the engine'
 🛠️ Requires an `--engine` option.  
 ⚙️ Allows configuration.
 
-### _Options_
+### Options
 
 `--resource` `-r`
 
-### _Usage_
+### Usage
 
 This option must be used with the `--engine` option.
 
@@ -959,7 +959,7 @@ This option must be used with the `--engine` option.
 
 `value` is one of the following:
 
-1. #### _URL segment string. For example_
+1. **_URL segment string._** For example
 
 <pre><code>web <em>--resource=teapot</em> <em>--engine=google.com</em></code></pre>
 
@@ -969,7 +969,7 @@ This option must be used with the `--engine` option.
 
 &gt; `https://example.com/path/to/resource`
 
-2. #### _Resource key in the engine's "resources" config. For example, `test`, `bar`, `baz` or `example`_
+2. **_Resource key in the engine's "resources" config._** For example, `test`, `bar`, `baz` or `example`
 
 ```typescript
 import { defineConfig } from "search-web/config";
@@ -994,7 +994,7 @@ defineConfig(({ engine }) => ({
 
 > ⚠️ Using keys like `foo`, `deeply`, or `nested` that do not point to a string value is not valid.
 
-### _Command values_
+### Command values
 
 When supplying command values, each value is used in a separate web query as a URL path segment after the provided resource.
 
@@ -1006,7 +1006,7 @@ For example, the following creates 3 distinct web queries:
 &gt; `https://npmjs.com/package/react`  
 &gt; `https://npmjs.com/package/@nestjs/cli`
 
-### _Combining resources_
+### Combining resources
 
 You can combine multiple resources together to create a single web query by using the `::` separator. Each resource can be either a key from the engine's `resources` config or an arbitrary string.
 
@@ -1085,7 +1085,7 @@ You can combine as many resources as you want and each one will be resolved to i
   - the config does not contain the provided resource key, or
   - the resource key is escaped with a forward slash `/`.
 
-### _Configuration_
+### Configuration
 
 Setting up [_engines configuration_](#engines-configuration) allows using resource keys as the option's value.
 
@@ -1096,11 +1096,11 @@ Adds the provided port number to the URL.
 ⚡ Requires a number value.  
 ❌ No configuration.
 
-### _Options_
+### Options
 
 `--port` `-:`
 
-### _Usage_
+### Usage
 
 <pre><code>web <em>--port=3000</em> example.com</code></pre>
 
@@ -1127,11 +1127,11 @@ Opens web queries in a private / incognito mode.
 🚩 Flag option - no value is required.  
 ❌ No configuration.
 
-### _Options_
+### Options
 
 `--incognito` `-i`
 
-### _Usage_
+### Usage
 
 <pre><code>web <em>--incognito</em></code></pre>
 
@@ -1142,11 +1142,11 @@ Creates a separate web query for each value argument.
 🚩 Flag option - no value is required.  
 ❌ No configuration.
 
-### _Options_
+### Options
 
 `--split`
 
-### _Usage_
+### Usage
 
 <pre><code>web Object Symbol class <em>--engine=mdn</em> <em>--split</em></code></pre>
 
@@ -1161,11 +1161,11 @@ Uses the non-secure HTTP protocol when constructing web queries.
 🚩 Flag option - no value is required.  
 ❌ No configuration.
 
-### _Options_
+### Options
 
 `--http`
 
-### _Usage_
+### Usage
 
 <pre><code>web <em>--http</em> https://google.com</code></pre>
 
@@ -1178,15 +1178,15 @@ Prevents opening browser tabs and only displays the output.
 🚩 Flag option - no value is required.  
 ❌ No configuration.
 
-### _Options_
+### Options
 
 `--test`
 
-### _Usage_
+### Usage
 
 <pre><code>web [values] [options] <em>--test</em></code></pre>
 
-# Custom Flags
+## Custom Flags
 
 When config is set up, certain keys and alias values automatically become _flags_. You can use these custom flags as substitutes for `engine`, `browser`, and `profile` options.
 
@@ -1200,7 +1200,7 @@ can be re-written using custom flags:
 
 > ⚠️ If a custom flag conflicts with an [_option_](#options) or its alias, the option takes precedence.
 
-## How custom flags are created
+### How custom flags are created
 
 The following config items are used to create custom flags:
 

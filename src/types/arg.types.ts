@@ -17,12 +17,12 @@ export interface ArgTypes {
   [Options.Split]: PrimitiveType<(typeof types)[Options.Split]>;
   [Options.Http]: PrimitiveType<(typeof types)[Options.Http]>;
   [Options.Test]: PrimitiveType<(typeof types)[Options.Test]>;
-  [Options.Update]: PrimitiveType<(typeof types)[Options.Update]>;
+  [Options.List]: PrimitiveType<(typeof types)[Options.List]>;
 }
 
-export type ArrayArgType<O extends Options> =
-  | ArgTypes[O]
-  | ArgTypes[O][]
+export type ArrayArgType<Option extends Options> =
+  | ArgTypes[Option]
+  | ArgTypes[Option][]
   | undefined;
 
 export interface ArrayArgs {
