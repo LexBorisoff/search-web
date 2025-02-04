@@ -14,7 +14,7 @@ const { meta } = parseData<ConfigDataJson>(readFile(configPath)) ?? {};
 function printDate(name: string, value: string = ''): void {
   if (value != null) {
     if (isValidDateString(value)) {
-      logger.info(new Date(value).toString());
+      logger(new Date(value).toString());
       return;
     }
     logger.error(`Invalid ${name} date is stored in config`);
@@ -24,7 +24,7 @@ function printDate(name: string, value: string = ''): void {
 
 export const showConfigMeta = {
   [ConfigAction.Directory]() {
-    logger.info(
+    logger(
       meta?.projectDir ??
         logger.level.error('No project directory is stored in config'),
     );

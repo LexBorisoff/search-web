@@ -1,9 +1,10 @@
+import 'dotenv/config';
 import path from 'node:path';
 
-import 'dotenv/config';
+import $_ from '@lexjs/prompts';
+
 import { loading } from '@helpers/utils/loading.js';
 import { logger } from '@helpers/utils/logger.js';
-import { prompts } from '@helpers/utils/prompts.js';
 
 import { createProjectDir } from './create-project-dir.js';
 import { createProjectFiles } from './create-project-files.js';
@@ -11,7 +12,7 @@ import { initializeProject } from './initialize-project.js';
 import { printInstructions } from './print-instructions.js';
 
 export async function createConfigProject(): Promise<void> {
-  const { projectName } = await prompts.text({
+  const { projectName } = await $_.text({
     name: 'projectName',
     message: 'Project name',
     initial: 'search-web-config',
