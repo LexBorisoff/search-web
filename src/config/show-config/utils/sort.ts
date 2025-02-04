@@ -17,7 +17,7 @@ export function sortByName<Item extends ConfigEngine | ConfigBrowser>(
         }
         return acc;
       },
-      { [defaultKey]: record[defaultKey] },
+      defaultKey != null ? { [defaultKey]: record[defaultKey] } : {},
     );
 }
 

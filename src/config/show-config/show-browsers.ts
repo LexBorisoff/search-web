@@ -10,6 +10,7 @@ import { getLongestCell } from './utils/get-longest-cell.js';
 import { sortByName } from './utils/sort.js';
 
 const browsers = getBrowsersData();
+const sortedBrowsers = sortByName(browsers);
 const defaultBrowserKey = getDefaultKey(browsers);
 const longestCell = getLongestCell(browsers);
 const hasAliases = longestCell.alias.length > 0;
@@ -106,8 +107,6 @@ function displayGutter(browserKey: string): string {
 }
 
 export function showBrowsers(): void {
-  const sortedBrowsers = sortByName(browsers);
-
   const headerLength = displayHeader();
 
   Object.entries(sortedBrowsers).forEach(([key, value]) => {

@@ -10,6 +10,7 @@ import { getLongestCell } from './utils/get-longest-cell.js';
 import { sortByName } from './utils/sort.js';
 
 const engines = getEnginesData();
+const sortedEngines = sortByName(engines);
 const defaultEngineKey = getDefaultKey(engines);
 const longestCell = getLongestCell(engines);
 const hasAliases = longestCell.alias.length > 0;
@@ -78,8 +79,6 @@ function displayGutter(engineName: string): string {
 }
 
 export function showEngines(): void {
-  const sortedEngines = sortByName(engines);
-
   const headerLength = displayHeader();
 
   Object.entries(sortedEngines).forEach(([key, value]) => {
