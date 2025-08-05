@@ -3,6 +3,10 @@
   "version": "0.0.0-semantically-released",
   "description": "CLI for making browser web searches from the shell",
   "type": "module",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "scripts": {
     "prepack": "npm run build",
     "prebuild": "npm run ci && rimraf ./dist",
