@@ -89,6 +89,7 @@ const args = yargs(hideBin(process.argv))
   })
   .option(Options.List, {
     type: types[Options.List],
+    alias: alias.list,
     description: 'List engines and browsers',
     group: group.other,
   })

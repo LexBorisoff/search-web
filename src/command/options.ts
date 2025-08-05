@@ -45,6 +45,7 @@ export const queryAlias: Alias<QueryOptions> = {
   port: [':'],
   incognito: ['i'],
   test: ['t'],
+  list: ['l'],
 };
 
 /**
