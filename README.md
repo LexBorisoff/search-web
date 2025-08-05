@@ -22,19 +22,24 @@ CLI for making browser web searches from the shell.
     - [Browsers configuration](#browsers-configuration)
   - [Generating the config file](#generating-the-config-file)
   - [Deleting config](#deleting-config)
-- [Built-in Options](#built-in-options)
+- [Browser Options](#browser-options):
   - [`browser`](#browser)
   - [`profile`](#profile)
+  - [`incognito`](#incognito)
+- [Engine Options](#engine-options):
   - [`engine`](#engine)
   - [`search`](#search)
   - [`delimiter`](#delimiter)
   - [`resource`](#resource)
   - [`port`](#port)
-  - [`incognito`](#incognito)
-  - [`split`](#split)
   - [`http`](#http)
+- [Other Options](#other-options):
+  - [`split`](#split)
   - [`test`](#test)
+  - [`list`](#list)
 - [Custom Flags](#custom-flags)
+
+---
 
 ## Installation
 
@@ -63,6 +68,8 @@ To get help with command options, use the `--help` option:
 To check the installed version, use the `--version` option:
 
 <pre><code>web <em>--version</em></code></pre>
+
+---
 
 ## Usage
 
@@ -136,6 +143,8 @@ web most starred repos on github.com
 ```
 
 &gt; `https://google.com/search?q=most%20starred%20repos%20on%20github.com`
+
+---
 
 ## Options
 
@@ -214,6 +223,8 @@ The above command will do the following:
 - open the constructed query in a new **_Firefox_** tab (`--browser=firefox`)
 - in **_incognito / private mode_** (`--incognito`)
 
+---
+
 ## Configuration
 
 Creating configuration allows you to customize the usage of Web CLI and enhance many of the built-in options. Before learning about these options, it is beneficial to know how to create and generate your own custom config.
@@ -226,14 +237,11 @@ First, run the following command in the directory where you want to create the p
 
 <pre><code>web <em>--config</em></code></pre>
 
-On its first run, you won't have an existing config so it will give you only 2 options:
+On its first run, you won't have an existing config so it will give you only 1 option:
 
-- `Engines` to show the initial engines
 - `New config` to create a new config project
 
-As was mentioned earlier, you get access to a set of initial search engines after installing the package. You can see these engines by selecting the first option.
-
-What we need, however, is to select the second option in order to create a new config directory. Once selected, the CLI will help you initialize and scaffold the project.
+Select this option in order to create a new config directory. The CLI will walk you through the process by initializing and scaffolding the config project.
 
 ### Editing the config project
 
@@ -633,7 +641,9 @@ To apply the changes you need to execute the file(s) where these functions are c
 
 <pre><code>npm run config:clear</code></pre>
 
-## Built-in Options
+---
+
+## Browser Options
 
 ## `browser`
 
@@ -780,6 +790,25 @@ Setting up [_browsers configuration_](#browsers-configuration) allows using
 
 - profile keys and aliases as the option's value
 - profile keys and multi-letter aliases as custom flags
+
+## `incognito`
+
+Opens web queries in a private / incognito mode.
+
+🚩 Flag option - no value is required.  
+❌ No configuration.
+
+### Options
+
+`--incognito` `-i`
+
+### Usage
+
+<pre><code>web <em>--incognito</em></code></pre>
+
+---
+
+## Engine Options
 
 ## `engine`
 
@@ -1120,20 +1149,26 @@ The program recognizes if an engine or a URL already includes a port and checks 
 &gt; `https://example.com:3000/api/users`  
 &gt; `https://example.com:5000/api/users`
 
-## `incognito`
+## `http`
 
-Opens web queries in a private / incognito mode.
+Uses the non-secure HTTP protocol when constructing web queries.
 
 🚩 Flag option - no value is required.  
 ❌ No configuration.
 
 ### Options
 
-`--incognito` `-i`
+`--http`
 
 ### Usage
 
-<pre><code>web <em>--incognito</em></code></pre>
+<pre><code>web <em>--http</em> https://google.com</code></pre>
+
+&gt; `http://google.com/`
+
+---
+
+## Other Options
 
 ## `split`
 
@@ -1154,23 +1189,6 @@ Creates a separate web query for each value argument.
 &gt; `https://developer.mozilla.org/search?q=Symbol`  
 &gt; `https://developer.mozilla.org/search?q=class`
 
-## `http`
-
-Uses the non-secure HTTP protocol when constructing web queries.
-
-🚩 Flag option - no value is required.  
-❌ No configuration.
-
-### Options
-
-`--http`
-
-### Usage
-
-<pre><code>web <em>--http</em> https://google.com</code></pre>
-
-&gt; `http://google.com/`
-
 ## `test`
 
 Prevents opening browser tabs and only displays the output.
@@ -1185,6 +1203,23 @@ Prevents opening browser tabs and only displays the output.
 ### Usage
 
 <pre><code>web [values] [options] <em>--test</em></code></pre>
+
+## `list`
+
+Lists engines and browsers from the config.
+
+🚩 Flag option - no value is required.  
+❌ No configuration.
+
+### Options
+
+`--list` `-l`
+
+### Usage
+
+<pre><code>web <em>--list</em></code></pre>
+
+---
 
 ## Custom Flags
 
